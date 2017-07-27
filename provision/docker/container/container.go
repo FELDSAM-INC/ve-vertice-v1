@@ -34,7 +34,7 @@ type DockerProvisioner interface {
 type Container struct {
 	Id                      string //container id.
 	BoxId                   string
-	AccountsId              string
+	AccountId              string
 	CartonId                string
 	Name                    string
 	BoxName                 string
@@ -83,6 +83,10 @@ type CreateArgs struct {
 }
 
 func (c *Container) Create(args *CreateArgs) error {
+	asm, err := carton.NewAssembly(c.CartonId, c.AccountId, "")
+	if err != nil {
+		return err
+	}
 	config := docker.Config{
 		Image:        args.ImageId,
 		AttachStdin:  false,
@@ -92,7 +96,8 @@ func (c *Container) Create(args *CreateArgs) error {
 		MemorySwap:   int64(args.Box.ConGetMemory() + args.Box.GetSwap()),
 		CPUShares:    int64(args.Box.GetCpushare()),
 		Labels: map[string]string{utils.ASSEMBLY_ID: args.Box.CartonId, utils.ASSEMBLY_NAME: c.BoxName,
-			utils.ASSEMBLIES_ID: args.Box.CartonsId, utils.ACCOUNT_ID: args.Box.AccountsId},
+			utils.ASSEMBLIES_ID: args.Box.CartonsId, utils.ACCOUNT_ID: args.Box.AccountId, utils.QUOTA_ID: args.Box.QuotaId,
+		  carton.CONTAINER_CPU_COST: asm.GetContainerCpuCost(), carton.CONTAINER_MEMORY_COST: asm.GetContainerCpuCost()},
 	}
 	opts := docker.CreateContainerOptions{Name: c.BoxName, Config: &config}
 	cl := args.Provisioner.Cluster()
@@ -159,7 +164,7 @@ func (c *Container) hostToNodeAddress(p DockerProvisioner, host string) (string,
 
 func (c *Container) SetMileStone(state utils.State) error {
 	log.Debugf("  set state[%s] of container (%s, %s)", c.BoxId, c.Name, state.String())
-	if asm, err := carton.NewAmbly(c.CartonId); err != nil {
+	if asm, err := carton.NewAssembly(c.CartonId, c.AccountId, ""); err != nil {
 		return err
 	} else if err = asm.SetState(state); err != nil {
 		return err
@@ -168,9 +173,9 @@ func (c *Container) SetMileStone(state utils.State) error {
 	if c.Level == provision.BoxSome {
 		log.Debugf("  set state[%s] of container (%s, %s)", c.BoxId, c.Name, state.String())
 
-		if comp, err := carton.NewComponent(c.BoxId); err != nil {
+		if comp, err := carton.NewComponent(c.BoxId, c.AccountId, ""); err != nil {
 			return err
-		} else if err = comp.SetState(state); err != nil {
+		} else if err = comp.SetState(state, c.AccountId); err != nil {
 			return err
 		}
 	}
@@ -182,8 +187,8 @@ func (c *Container) UpdateContId() error {
 
 	var ids = make(map[string][]string)
 	cid := []string{c.Id}
-	ids["containerId"] = cid
-	if asm, err := carton.NewAmbly(c.CartonId); err != nil {
+	ids[carton.INSTANCE_ID] = cid
+	if asm, err := carton.NewAssembly(c.CartonId, c.AccountId, ""); err != nil {
 		return err
 	} else if err = asm.NukeAndSetOutputs(ids); err != nil {
 		return err
@@ -246,8 +251,9 @@ func (c *Container) Start(args *StartArgs) error {
 		MemorySwap: int64(args.Box.ConGetMemory() + args.Box.GetSwap()),
 		CPUShares:  int64(args.Box.GetCpushare()),
 	}
-
-	err = args.Provisioner.Cluster().StartContainer(c.Id, &hostConfig)
+  st := args.Provisioner.Cluster()
+	st.Region = c.Region
+	err = st.StartContainer(c.Id, &hostConfig)
 	if err != nil {
 		return err
 	}
@@ -255,6 +261,7 @@ func (c *Container) Start(args *StartArgs) error {
 	if args.Deploy {
 		initialStatus = constants.StatusContainerBootstrapping
 	}
+	c.SetMileStone(constants.StateRunning)
 	return c.SetStatus(initialStatus)
 }
 
@@ -262,11 +269,14 @@ func (c *Container) Stop(p DockerProvisioner) error {
 	if c.Status.String() == constants.StatusContainerStopped.String() {
 		return nil
 	}
-	err := p.Cluster().StopContainer(c.Id, 10)
+	st := p.Cluster()
+	st.Region = c.Region
+	err := st.StopContainer(c.Id, 10)
 	if err != nil {
 		log.Errorf("error on stop container %s: %s", c.Id, err)
 	}
 	c.SetStatus(constants.StatusContainerStopped)
+	c.SetMileStone(constants.StateStopped)
 	return nil
 }
 
@@ -307,7 +317,7 @@ func SafeAttachWaitContainer(p DockerProvisioner, opts docker.AttachToContainerO
 
 func (c *Container) SetStatus(status utils.Status) error {
 	log.Debugf("  set status[%s] of container (%s, %s)", c.BoxId, c.Name, status.String())
-	if asm, err := carton.NewAmbly(c.CartonId); err != nil {
+	if asm, err := carton.NewAssembly(c.CartonId, c.AccountId, ""); err != nil {
 		return err
 	} else if err = asm.SetStatus(status); err != nil {
 		return err
@@ -315,9 +325,9 @@ func (c *Container) SetStatus(status utils.Status) error {
 
 	if c.Level == provision.BoxSome {
 		log.Debugf("  set status[%s] of container (%s, %s)", c.BoxId, c.Name, status.String())
-		if comp, err := carton.NewComponent(c.BoxId); err != nil {
+		if comp, err := carton.NewComponent(c.BoxId, c.AccountId, ""); err != nil {
 			return err
-		} else if err = comp.SetStatus(status); err != nil {
+		} else if err = comp.SetStatus(status, c.AccountId); err != nil {
 			return err
 		}
 	}
@@ -327,7 +337,7 @@ func (c *Container) SetStatus(status utils.Status) error {
 //trigger multi event in the order
 func (c *Container) Deduct() error {
 	mi := make(map[string]string)
-	mi[constants.ACCOUNTID] = c.AccountsId
+	mi[constants.ACCOUNTID] = c.AccountId
 	mi[constants.ASSEMBLYID] = c.CartonId
 	mi[constants.ASSEMBLYNAME] = c.Name
 	mi[constants.CONSUMED] = "0.1"
@@ -337,15 +347,15 @@ func (c *Container) Deduct() error {
 	newEvent := events.NewMulti(
 		[]*events.Event{
 			&events.Event{
-				AccountsId:  c.AccountsId,
+				AccountsId:  c.AccountId,
 				EventAction: alerts.DEDUCT,
 				EventType:   constants.EventBill,
 				EventData:   alerts.EventData{M: mi},
 				Timestamp:   time.Now().Local(),
 			},
 			&events.Event{
-				AccountsId:  c.AccountsId,
-				EventAction: alerts.TRANSACTION, //Change type to transaction
+				AccountsId:  c.AccountId,
+				EventAction: alerts.BILLEDHISTORY, //Change type to transaction
 				EventType:   constants.EventBill,
 				EventData:   alerts.EventData{M: mi},
 				Timestamp:   time.Now().Local(),
@@ -369,7 +379,7 @@ var err error
 		return netInfo, err
 	}
 	//netInfo.IP = ip.String()
-	err = p.Cluster().SetNetworkinNode(c.Id, c.CartonId)
+	err = p.Cluster().SetNetworkinNode(c.Id, c.CartonId,c.AccountId)
 	return netInfo, err
 }
 

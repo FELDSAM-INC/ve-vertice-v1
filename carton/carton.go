@@ -2,6 +2,7 @@ package carton
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/megamsys/libgo/api"
 	"github.com/megamsys/libgo/utils"
 	"github.com/megamsys/vertice/provision"
 	"gopkg.in/yaml.v2"
@@ -13,22 +14,28 @@ type Carton struct {
 	Id           string //assemblyid
 	Name         string
 	CartonsId    string
-	AccountsId   string
+	AccountId    string
+	QuotaId      string
+	ApiArgs      api.ApiArgs
 	OrgId        string
 	Tosca        string
 	ImageVersion string
+	ImageName    string
+	StorageType  string
+	Snapshot     bool
 	Compute      provision.BoxCompute
 	SSH          provision.BoxSSH
 	DomainName   string
 	Provider     string
 	PublicIp     string
-	VMId         string
+	InstanceId   string
 	Region       string
 	Vnets        map[string]string
 	Boxes        *[]provision.Box
 	Status       utils.Status
 	State        utils.State
 }
+
 
 //Global provisioners set by the subd daemons.
 var ProvisionerMap map[string]provision.Provisioner = make(map[string]provision.Provisioner)
@@ -56,19 +63,24 @@ func (c *Carton) toBox() error { //assemblies id.
 	case provision.BoxNone:
 		c.Boxes = &[]provision.Box{provision.Box{
 			Id:           c.Id, //should be the component id, but in case of BoxNone there is no component id.
-			AccountsId:   c.AccountsId,
+			AccountId:    c.AccountId,
 			CartonId:     c.Id,        //We stick the assemlyid here.
 			CartonsId:    c.CartonsId, //assembliesId,
 			OrgId:        c.OrgId,
+			ApiArgs:      c.ApiArgs,
 			CartonName:   c.Name,
 			Name:         c.Name,
 			DomainName:   c.DomainName,
+			StorageType:  c.StorageType,
 			Level:        c.lvl(), //based on the level, we decide to use the Box-Id as ComponentId or AssemblyId
 			ImageVersion: c.ImageVersion,
+			ImageName:    c.ImageName,
+			Snapshot:     c.Snapshot,
 			Compute:      c.Compute,
 			Provider:     c.Provider,
 			PublicIp:     c.PublicIp,
-			VMId:         c.VMId,
+			InstanceId:   c.InstanceId,
+			QuotaId:      c.QuotaId,
 			Region:       c.Region,
 			Vnets:        c.Vnets,
 			Tosca:        c.Tosca,
@@ -100,7 +112,6 @@ func (c *Carton) Running() error {
 	}
 	return nil
 }
-
 
 // Destroys a carton, which deletes its boxes.
 func (c *Carton) Destroy() error {
@@ -193,8 +204,6 @@ func (c *Carton) SaveImage() error {
 	}
 	return nil
 }
-
-
 
 // SnapDelete a carton, which removes an existing image created from state of its box.
 func (c *Carton) DeleteImage() error {

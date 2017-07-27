@@ -54,7 +54,7 @@ func NewTestConfig() *Config {
 
 // OpenServer opens a test server.
 func OpenServer(c *Config) *Server {
-	s, _ := NewServer(c, "0.9.1")
+	s, _ := NewServer(c, "1.5-7")
 	_ = s.Open()
 	return s
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/megamsys/vertice/subd/deployd"
 	"github.com/megamsys/vertice/subd/dns"
 	"github.com/megamsys/vertice/subd/docker"
+        "github.com/megamsys/vertice/subd/rancher"
 	"github.com/megamsys/vertice/subd/eventsd"
 	"github.com/megamsys/vertice/subd/httpd"
 	"github.com/megamsys/vertice/subd/metricsd"
@@ -43,9 +44,11 @@ func NewServer(c *Config, version string) (*Server, error) {
 	s.appendDeploydService(c.Meta, c.Deployd)
 	s.appendHTTPDService(c.HTTPD)
 	s.appendDockerService(c.Meta, c.Docker)
-	s.appendMetricsdService(c.Meta, c.Deployd,c.Docker, c.Metrics)
-	s.appendEventsdService(c.Meta, c.Events)
+	s.appendMetricsdService(c)
+	s.appendEventsdService(c.Meta, c.Events,c.Deployd)
+        s.appendRancherService(c.Meta, c.Rancher)
 	s.selfieDNS(c.DNS)
+	c.Meta.MkGlobal() //a setter for global meta config
 	return s, nil
 }
 
@@ -79,21 +82,31 @@ func (s *Server) appendDockerService(c *meta.Config, d *docker.Config) {
 	s.Services = append(s.Services, srv)
 }
 
-func (s *Server) appendMetricsdService(c *meta.Config, o *deployd.Config,  d *docker.Config, f *metricsd.Config) {
-	if !f.Enabled {
+func (s *Server) appendMetricsdService(c *Config) {
+	if !c.Metrics.Enabled {
 		log.Warn("skip metricsd service.")
 		return
 	}
-	srv := metricsd.NewService(c, o,d, f)
+	srv := metricsd.NewService(c.Meta, c.Deployd, c.Docker, c.Metrics, c.Storage, c.Snapshots)
 	s.Services = append(s.Services, srv)
 }
 
-func (s *Server) appendEventsdService(c *meta.Config, e *eventsd.Config) {
+func (s *Server) appendEventsdService(c *meta.Config, e *eventsd.Config, o *deployd.Config) {
 	if !e.Enabled {
 		log.Warn("skip eventsd service.")
 		return
 	}
-	srv := eventsd.NewService(c, e)
+	srv := eventsd.NewService(c, e, o)
+	s.Services = append(s.Services, srv)
+}
+
+func (s *Server) appendRancherService(c *meta.Config, d *rancher.Config) {
+         e := *d
+	if !e.Rancher.Enabled {
+		log.Warn("skip Rancher service.")
+		return
+	}
+	srv := rancher.NewService(c, d)
 	s.Services = append(s.Services, srv)
 }
 

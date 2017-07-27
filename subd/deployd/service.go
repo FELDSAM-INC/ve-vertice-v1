@@ -37,7 +37,7 @@ func NewService(c *meta.Config, d *Config) *Service {
 		Deployd: d,
 	}
 	s.Handler = NewHandler(s.Deployd)
-	c.MkGlobal() //a setter for global meta config
+	//c.MkGlobal() //a setter for global meta config
 	return s
 }
 
@@ -52,7 +52,6 @@ func (s *Service) Open() error {
 			return err
 		}
 		s.Consumer = nsq.DefaultConsumer
-
 		nsq.Start(true)
 		return nil
 	}()
@@ -65,13 +64,14 @@ func (s *Service) Open() error {
 }
 
 func (s *Service) processNSQ(msg *nsq.Message) {
+	log.Debugf(TOPIC + "queue received message  :" + string(msg.Body))
 	p, err := carton.NewPayload(msg.Body)
 	if err != nil {
 		return
 	}
-
 	re, err := p.Convert()
 	if err != nil {
+		log.Errorf("%s",err)
 		return
 	}
 	go s.Handler.serveNSQ(re)

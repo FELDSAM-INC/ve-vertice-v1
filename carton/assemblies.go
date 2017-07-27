@@ -17,9 +17,10 @@ package carton
 
 import (
 	log "github.com/Sirupsen/logrus"
-	ldb "github.com/megamsys/libgo/db"
-	"github.com/megamsys/vertice/meta"
+	"github.com/megamsys/libgo/api"
+	"github.com/megamsys/libgo/pairs"
 	"gopkg.in/yaml.v2"
+	"encoding/json"
 	"reflect"
 	"strings"
 )
@@ -30,14 +31,19 @@ const (
 //bunch Assemblys
 type Cartons []*Carton
 
+type ApiAssemblies struct {
+	JsonClaz string     `json:"json_claz"`
+	Results  []Assemblies `json:"results"`
+}
+
 //The grand elephant for megam cloud platform.
 type Assemblies struct {
 	Id          string   `json:"id" cql:"id"`
-	AccountsId  string   `json:"org_id" cql:"org_id"`
+	OrgId			  string   `json:"org_id" cql:"org_id"`
 	JsonClaz    string   `json:"json_claz" cql:"json_claz"`
 	Name        string   `json:"name" cql:"name"`
 	AssemblysId []string `json:"assemblies" cql:"assemblies"`
-	Inputs      []string `json:"inputs" cql:"inputs"`
+	Inputs      pairs.JsonPairs `json:"inputs" cql:"inputs"`
 	CreatedAt   string   `json:"created_at" cql:"created_at"`
 }
 
@@ -51,34 +57,36 @@ func (a *Assemblies) String() string {
 
 /** A public function which pulls the assemblies for deployment.
 and any others we do. **/
-func Get(id string) (*Assemblies, error) {
 
-	a := &Assemblies{}
-	//ops := vdb.ScyllaOptions("assemblies", []string{"Id"}, []string{"org_id"}, map[string]string{"Id": id, "org_id":"ORG123"})
-	ops := ldb.Options{
-		TableName:   ASSEMBLIESBUCKET,
-		Pks:         []string{"Id"},
-		Ccms:        []string{},
-		Hosts:       meta.MC.Scylla,
-		Keyspace:    meta.MC.ScyllaKeyspace,
-		Username:    meta.MC.ScyllaUsername,
-		Password:    meta.MC.ScyllaPassword,
-		PksClauses:  map[string]interface{}{"Id": id},
-		CcmsClauses: make(map[string]interface{}),
-	}
-	if err := ldb.Fetchdb(ops, a); err != nil {
+func Get(id, email string) (*Assemblies, error) {
+ 	args := newArgs(email,"")
+	a := new(Assemblies)
+	a.Id = id
+ 	return a.get(args)
+}
+
+func (a *Assemblies) get(args api.ApiArgs) (*Assemblies, error) {
+	cl := api.NewClient(args, "/assemblies/" + a.Id)
+	response, err := cl.Get()
+	if err != nil {
 		return nil, err
 	}
-	log.Debugf("Assemblies %v", a)
+
+	ac := &ApiAssemblies{}
+	err = json.Unmarshal(response, ac)
+	if err != nil {
+		return nil, err
+	}
+	a = &ac.Results[0]
 	return a, nil
 }
 
 //make cartons from assemblies.
-func (a *Assemblies) MkCartons() (Cartons, error) {
+func (a *Assemblies) MkCartons(email string) (Cartons, error) {
 	newCs := make(Cartons, 0, len(a.AssemblysId))
 	for _, ay := range a.AssemblysId {
 		if len(strings.TrimSpace(ay)) > 1 {
-			if ca, err := mkCarton(a.Id, ay); err != nil {
+			if ca, err := mkCarton(a.Id, ay, email); err != nil {
 				return nil, err
 			} else {
 				ca.toBox()                //on success, make a carton2box if BoxLevel is BoxZero
@@ -90,54 +98,16 @@ func (a *Assemblies) MkCartons() (Cartons, error) {
 	return newCs, nil
 }
 
-func (a *Assemblies) Delete(asmid string, removedAssemblys []string) {
+func (a *Assemblies) Delete(asmid, email string, removedAssemblys []string) {
 	existingAssemblys := make([]string, len(a.AssemblysId))
-
 	for i := 0; i < len(a.AssemblysId); i++ {
 		if len(strings.TrimSpace(a.AssemblysId[i])) > 1 {
 			existingAssemblys[i] = a.AssemblysId[i]
 		}
 	}
+	args := newArgs(email, a.OrgId)
 	if reflect.DeepEqual(existingAssemblys, removedAssemblys) {
-		ops := ldb.Options{
-			TableName:   ASSEMBLIESBUCKET,
-			Pks:         []string{"id"},
-			Ccms:        []string{"org_id"},
-			Hosts:       meta.MC.Scylla,
-			Keyspace:    meta.MC.ScyllaKeyspace,
-			Username:    meta.MC.ScyllaUsername,
-			Password:    meta.MC.ScyllaPassword,
-			PksClauses:  map[string]interface{}{"id": asmid},
-			CcmsClauses: map[string]interface{}{"org_id": a.AccountsId},
-		}
-		if err := ldb.Deletedb(ops, Assemblies{}); err != nil {
-			return
-		}
+		cl := api.NewClient(args, "/assemblies/" + asmid)
+		_, _ = cl.Delete()
 	}
-}
-
-//a hash in json representing {name: "", value: ""}
-type JsonPairs []JsonPair
-
-type JsonPair struct {
-	K string `json:"key" cql:"key"`
-	V string `json:"value" cql:"value"`
-}
-
-//create a new hash pair in json  by providing a key, value
-func NewJsonPair(k string, v string) JsonPair {
-	return JsonPair{
-		K: k,
-		V: v,
-	}
-}
-
-//match for a value in the JSONPair arrays and send the value
-func (p *JsonPairs) match(k string) string {
-	for _, j := range *p {
-		if j.K == k {
-			return j.V
-		}
-	}
-	return ""
 }

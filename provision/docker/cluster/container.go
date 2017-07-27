@@ -177,11 +177,15 @@ func (c *Cluster) removeFromStorage(opts docker.RemoveContainerOptions) error {
 
 func (c *Cluster) StartContainer(id string, hostConfig *docker.HostConfig) error {
 
-	node, err := c.getNodeForContainer(id)
+	var n node
+	n, err := c.getNodeForContainer(id)
 	if err != nil {
-		return err
+		n, err = c.getNodeByRegion(c.Region)
+		if err != nil {
+		  return err
+	  }
 	}
-	return wrapError(node, node.StartContainer(id, hostConfig))
+	return wrapError(n, n.StartContainer(id, hostConfig))
 }
 
 func (c *Cluster) PreStopAction(name string) (string, error) {
@@ -195,11 +199,15 @@ func (c *Cluster) PreStopAction(name string) (string, error) {
 // StopContainer stops a container, killing it after the given timeout, if it
 // fails to stop nicely.
 func (c *Cluster) StopContainer(id string, timeout uint) error {
-	node, err := c.getNodeForContainer(id)
+	var n node
+	n, err := c.getNodeForContainer(id)
 	if err != nil {
-		return err
+		n, err = c.getNodeByRegion(c.Region)
+		if err != nil {
+		  return err
+	  }
 	}
-	return wrapError(node, node.StopContainer(id, timeout))
+	return wrapError(n, n.StopContainer(id, timeout))
 }
 
 // RestartContainer restarts a container, killing it after the given timeout,
@@ -306,14 +314,14 @@ func (c *Cluster) getNodeForContainer(container string) (node, error) {
 	})
 }
 
-func (c *Cluster) SetNetworkinNode(containerId string, cartonId string) error {
+func (c *Cluster) SetNetworkinNode(containerId, cartonId, email string) error {
 	port := c.GulpPort()
 	container := c.getContainerObject(containerId)
-	err := c.Ips(container.NetworkSettings.IPAddress, cartonId)
+	err := c.Ips(container.NetworkSettings.IPAddress, cartonId,email)
 	if err != nil {
 		return err
 	}
-	client := DockerClient{ContainerId: containerId, CartonId: cartonId}
+	client := DockerClient{ContainerId: containerId, CartonId: cartonId, AccountId: email}
 	err = client.NetworkRequest(container.Node.IP, port)
 
 	if err != nil {
@@ -322,11 +330,11 @@ func (c *Cluster) SetNetworkinNode(containerId string, cartonId string) error {
 	return nil
 }
 
-func (c *Cluster) Ips(ip string, CartonId string) error {
+func (c *Cluster) Ips(ip, CartonId,email string) error {
 	var ips = make(map[string][]string)
 	pubipv4s := []string{ip}
 	ips[c.getIps()] = pubipv4s
-	if asm, err := carton.NewAmbly(CartonId); err != nil {
+	if asm, err := carton.NewAssembly(CartonId,email, ""); err != nil {
 		return err
 	} else if err = asm.NukeAndSetOutputs(ips); err != nil {
 		return err
@@ -382,6 +390,24 @@ func (c *Cluster) CreateExec(opts docker.CreateExecOptions) (*docker.Exec, error
 	return exec, wrapError(node, err)
 }
 
+func (c *Cluster) getNodeByRegion(region string) (node, error) {
+ var addr	string
+ var n node
+	nodes, err := c.Nodes()
+	if err != nil {
+		return n, err
+	}
+	for _, v := range nodes {
+		if v.Metadata[DOCKER_ZONE] == region {
+			addr = v.Address
+		}
+	}
+	if addr == "" {
+		 return n, errors.New("CreateContainer needs a non empty node addr")
+	}
+ return c.getNodeByAddr(addr)
+}
+
 func (c *Cluster) StartExec(execId, containerId string, opts docker.StartExecOptions) error {
 	node, err := c.getNodeForContainer(containerId)
 	if err != nil {
@@ -421,9 +447,14 @@ func (c *Cluster) GulpPort() string {
 }
 
 // Showback returns the metrics of the swarm containers stats
+
 func (c *Cluster) Showback(start int64, end int64, point string) ([]interface{}, error) {
 	log.Debugf("showback (%d, %d)", start, end)
-	var resultStats []interface{}
+	var (
+		result *docker.Container
+		v  docker.APIContainers
+		resultStats []interface{}
+	)
 	node, err := c.getNodeByAddr(point)
 	if err != nil {
 		return nil, fmt.Errorf("%s", cmd.Colorfy("Unavailable nodes (hint: start or beat it).\n", "red", "", ""))
@@ -433,62 +464,28 @@ func (c *Cluster) Showback(start int64, end int64, point string) ([]interface{},
 		//	Filters: map[string][]string{"status": {"running","paused","stopped"}},
 	}
 	ps, err := node.ListContainers(opts)
-	for _, v := range ps {
-		id := v.ID
-		errC := make(chan error, 1)
-		statsC := make(chan *docker.Stats)
-		done := make(chan bool)
-		defer close(done)
-		go func() {
-			errC <- node.Stats(docker.StatsOptions{ID: id, Stats: statsC, Stream: false, Done: done})
-			close(errC)
-		}()
-
-		for {
-			stats, ok := <-statsC
-			if !ok {
-				break
-			}
-			resultStats = append(resultStats, parseContainerStats(v, stats))
-		}
-		err := <-errC
-		if err != nil {
-			return nil, wrapError(node, err)
-		}
-
-	}
 	if err != nil {
-		return nil, wrapError(node, err)
+		return nil, err
 	}
-
-	log.Debugf("showback (%d, %d) OK", start, end)
-	return resultStats, nil
-}
-
-func parseContainerStats(d docker.APIContainers, stats *docker.Stats) *metrix.Stats {
-	return &metrix.Stats{
-		ContainerId:  d.ID,
-		MemoryUsage:  stats.MemoryStats.Usage,
-		SystemMemory: stats.MemoryStats.Limit,
-		CPUStats: metrix.CPUStats{
-			PercpuUsage:       stats.CPUStats.CPUUsage.PercpuUsage,
-			UsageInUsermode:   stats.CPUStats.CPUUsage.UsageInUsermode,
-			TotalUsage:        stats.CPUStats.CPUUsage.TotalUsage,
-			UsageInKernelmode: stats.CPUStats.CPUUsage.UsageInKernelmode,
-			SystemCPUUsage:    stats.CPUStats.SystemCPUUsage,
-		},
-		PreCPUStats: metrix.CPUStats{
-			PercpuUsage:       stats.PreCPUStats.CPUUsage.PercpuUsage,
-			UsageInUsermode:   stats.PreCPUStats.CPUUsage.UsageInUsermode,
-			TotalUsage:        stats.PreCPUStats.CPUUsage.TotalUsage,
-			UsageInKernelmode: stats.PreCPUStats.CPUUsage.UsageInKernelmode,
-			SystemCPUUsage:    stats.PreCPUStats.SystemCPUUsage,
-		},
-		AccountId:    d.Labels[constants.ACCOUNT_ID],
-		AssemblyId:   d.Labels[constants.ASSEMBLY_ID],
-		AssembliesId: d.Labels[constants.ASSEMBLIES_ID],
-		AssemblyName: d.Labels[constants.ASSEMBLY_NAME],
-		AuditPeriod:  stats.Read,
-		Status:       d.State,
+	for _, v = range ps {
+		id := v.ID
+		result, _ = node.InspectContainer(id)
+		res := &metrix.Stats{
+			ContainerId:  result.ID,
+			Image: result.Image,
+			AllocatedMemory: result.HostConfig.Memory,
+			AllocatedCpu: result.HostConfig.CPUShares,
+			AccountId:    v.Labels[constants.ACCOUNT_ID],
+			AssemblyId:   v.Labels[constants.ASSEMBLY_ID],
+			AssembliesId: v.Labels[constants.ASSEMBLIES_ID],
+			AssemblyName: v.Labels[constants.ASSEMBLY_NAME],
+			CPUUnitCost: v.Labels[carton.CONTAINER_CPU_COST],
+			MemoryUnitCost: v.Labels[carton.CONTAINER_MEMORY_COST],
+			QuotaId: v.Labels[constants.QUOTA_ID],
+			//AuditPeriod:  stats.Read,
+			Status:       v.State,
+		}
+		resultStats = append(resultStats,res)
 	}
-}
+		return resultStats, nil
+		}

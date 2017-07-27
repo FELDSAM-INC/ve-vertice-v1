@@ -1,7 +1,8 @@
 package metrix
-
+/*
 import (
 	"gopkg.in/check.v1"
+	"fmt"
 )
 
 func (s *S) TestStoreCollectedr(c *check.C) {
@@ -13,9 +14,19 @@ func (s *S) TestStoreCollectedr(c *check.C) {
 	c.Assert(all, check.NotNil)
 
 	o := OutputHandler{
-		ScyllaAddress: s.cm.Scylla,
+		ScyllaAddress: s.cm.Api,
 	}
 	c.Assert(o, check.NotNil)
 	err := o.WriteMetrics(all)
 	c.Assert(err, check.IsNil)
 }
+
+
+func (s *S) TestBalanceEvents(c *check.C) {
+
+  err := mkBalance(s.sensor, map[string]string{"memory_unit": "1024", "cpu_unit": "1", "disk_unit": "10240"})
+  fmt.Println(err)
+  c.Assert(nil, check.NotNil)
+}
+
+*/

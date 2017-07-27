@@ -26,13 +26,14 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/megamsys/libgo/action"
 	"github.com/megamsys/libgo/cmd"
+	"github.com/megamsys/libgo/events"
 	"github.com/megamsys/libgo/events/alerts"
 	"github.com/megamsys/libgo/utils"
 	constants "github.com/megamsys/libgo/utils"
 	"github.com/megamsys/opennebula-go/api"
+	"github.com/megamsys/vertice/carton"
 	lb "github.com/megamsys/vertice/logbox"
 	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/carton"
 	"github.com/megamsys/vertice/provision/one/cluster"
 	"github.com/megamsys/vertice/provision/one/machine"
 	"github.com/megamsys/vertice/repository"
@@ -67,15 +68,21 @@ type Region struct {
 	OneEndPoint    string    `json:"one_endpoint" toml:"one_endpoint"`
 	OneUserid      string    `json:"one_user" toml:"one_user"`
 	OnePassword    string    `json:"one_password" toml:"one_password"`
+	OneMasterKey   string    `json:"one_masterkey" toml:"one_masterkey"`
 	OneTemplate    string    `json:"one_template" toml:"one_template"`
 	Image          string    `json:"image" toml:"image"`
 	VCPUPercentage string    `json:"vcpu_percentage" toml:"vcpu_percentage"`
 	Certificate    string    `json:"certificate" toml:"certificate"`
 	Clusters       []Cluster `json:"cluster" toml:"cluster"`
+	CpuUnit        string    `json:"cpu_unit" toml:"cpu_unit"`
+	MemoryUnit     string    `json:"memory_unit" toml:"memory_unit"`
+	DiskUnit       string    `json:"disk_unit" toml:"disk_unit"`
 }
 
 type Cluster struct {
 	Enabled       bool   `json:"enabled" toml:"enabled"`
+	StorageType   string `json:"storage_hddtype" toml:"storage_hddtype"`
+	VOneCloud     bool   `json:"vonecloud" toml:"vonecloud"`
 	ClusterId     string `json:"cluster_id" toml:"cluster_id"`
 	Vnet_pri_ipv4 string `json:"vnet_pri_ipv4" toml:"vnet_pri_ipv4"`
 	Vnet_pub_ipv4 string `json:"vnet_pub_ipv4" toml:"vnet_pub_ipv4"`
@@ -119,6 +126,7 @@ func (p *oneProvisioner) initOneCluster(i interface{}) error {
 			c := w.Regions[i].toClusterMap()
 			n := cluster.Node{
 				Address:  m[api.ENDPOINT],
+				Region:   m[api.ONEZONE],
 				Metadata: m,
 				Clusters: c,
 			}
@@ -158,6 +166,10 @@ func (c Region) toClusterMap() map[string]map[string]string {
 				mm[utils.IPV4PUB] = c.Clusters[i].Vnet_pub_ipv4
 				mm[utils.IPV6PRI] = c.Clusters[i].Vnet_pri_ipv6
 				mm[utils.IPV6PUB] = c.Clusters[i].Vnet_pub_ipv6
+				mm[utils.STORAGE_TYPE] = c.Clusters[i].StorageType
+				if c.Clusters[i].VOneCloud {
+					mm[utils.VONE_CLOUD] = utils.TRUE
+				}
 				clData[c.Clusters[i].ClusterId] = mm
 			}
 		}
@@ -225,19 +237,13 @@ func (p *oneProvisioner) deployPipeline(box *provision.Box, imageId string, w io
 
 	fmt.Fprintf(w, lb.W(lb.DEPLOY, lb.INFO, fmt.Sprintf("--- deploy box (%s, image:%s)", box.GetFullName(), imageId)))
 
-	actions := []*action.Action{
-		&updateStatusInScylla,
-		&mileStoneUpdate,
-		&createMachine,
-		&mileStoneUpdate,
-		&getVmHostIpPort,
-		&updateStatusInScylla,
-		&updateVnchostPostInScylla,
-		&updateStatusInScylla,
-		&deductCons,
-		&updateStatusInScylla,
-		&followLogs,
+	actions := []*action.Action{&machCreating}
+	if events.IsEnabled(constants.BILLMGR) && !(len(box.QuotaId) > 0) {
+		actions = append(actions, &checkBalances, &updateStatusInScylla)
 	}
+	actions = append(actions, &mileStoneUpdate, &createMachine, &getVmHostIpPort, &mileStoneUpdate, &updateStatusInScylla)
+	actions = append(actions, &updateVnchostPostInScylla, &updateStatusInScylla, &setFinalStatus, &updateStatusInScylla, &followLogs)
+
 	pipeline := action.NewPipeline(actions...)
 
 	args := runMachineActionsArgs{
@@ -268,13 +274,18 @@ func (p *oneProvisioner) Destroy(box *provision.Box, w io.Writer) error {
 		writer:        w,
 		isDeploy:      false,
 		machineStatus: constants.StatusDestroying,
+		machineState:  constants.StateDestroying,
 		provisioner:   p,
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
+		&mileStoneUpdate,
 		&destroyOldMachine,
 		&destroyOldRoute,
+		&mileStoneUpdate,
+		&updateStatusInScylla,
 	}
 
 	pipeline := action.NewPipeline(actions...)
@@ -302,6 +313,7 @@ func (p *oneProvisioner) SaveImage(box *provision.Box, w io.Writer) error {
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&createSnapImage,
 		&waitUntillImageReady,
@@ -331,6 +343,8 @@ func (p *oneProvisioner) DeleteImage(box *provision.Box, w io.Writer) error {
 	}
 
 	actions := []*action.Action{
+		&machCreating,
+		&updateSnapStatus,
 		&updateStatusInScylla,
 		&removeSnapShot,
 		&updateStatusInScylla,
@@ -358,6 +372,7 @@ func (p *oneProvisioner) AttachDisk(box *provision.Box, w io.Writer) error {
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&addNewStorage,
 		&updateIdInDiskTable,
@@ -386,6 +401,7 @@ func (p *oneProvisioner) DetachDisk(box *provision.Box, w io.Writer) error {
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&removeDiskStorage,
 		&updateStatusInScylla,
@@ -413,7 +429,7 @@ func (p *oneProvisioner) SetState(box *provision.Box, w io.Writer, changeto util
 	}
 
 	stateAction := make([]*action.Action, 0, 4)
-	stateAction = append(stateAction, &changeStateofMachine)
+	stateAction = append(stateAction, &machCreating, &changeStateofMachine)
 	if args.box.PublicIp != "" {
 		stateAction = append(stateAction, &updateStatusInScylla, &addNewRoute, &updateStatusInScylla)
 	} else {
@@ -448,6 +464,7 @@ func (p *oneProvisioner) Restart(box *provision.Box, process string, w io.Writer
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&restartMachine,
 		&mileStoneUpdate,
@@ -479,6 +496,7 @@ func (p *oneProvisioner) Start(box *provision.Box, process string, w io.Writer) 
 	}
 
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&startMachine,
 		&mileStoneUpdate,
@@ -510,6 +528,7 @@ func (p *oneProvisioner) Stop(box *provision.Box, process string, w io.Writer) e
 		provisioner:   p,
 	}
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 		&stopMachine,
 		&mileStoneUpdate,
@@ -547,10 +566,10 @@ func (*oneProvisioner) Addr(box *provision.Box) (string, error) {
 	return addr, nil
 }
 
-func (p *oneProvisioner) MetricEnvs(start int64, end int64, point string, w io.Writer) ([]interface{}, error) {
+func (p *oneProvisioner) MetricEnvs(start int64, end int64, region string, w io.Writer) ([]interface{}, error) {
 
 	fmt.Fprintf(w, lb.W(lb.BILLING, lb.INFO, fmt.Sprintf("--- pull metrics for the duration (%d, %d)", start, end)))
-	res, err := p.Cluster().Showback(start, end, point)
+	res, err := p.Cluster().Showback(start, end, region)
 	if err != nil {
 
 		fmt.Fprintf(w, lb.W(lb.BILLING, lb.ERROR, fmt.Sprintf("--- pull metrics for the duration error(%d, %d)-->%s", start, end)))
@@ -563,9 +582,9 @@ func (p *oneProvisioner) MetricEnvs(start int64, end int64, point string, w io.W
 
 func (p *oneProvisioner) TriggerBills(account_id, cat_id, name string) error {
 	mach := &machine.Machine{
-		Name:       name,
-		CartonId:   cat_id,
-		AccountsId: account_id,
+		Name:      name,
+		CartonId:  cat_id,
+		AccountId: account_id,
 	}
 	err := mach.Deduct()
 	if err != nil {
@@ -578,6 +597,7 @@ func (p *oneProvisioner) SetBoxStatus(box *provision.Box, w io.Writer, status ut
 
 	fmt.Fprintf(w, lb.W(lb.DEPLOY, lb.INFO, fmt.Sprintf("--- status %s box %s", box.GetFullName(), status.String())))
 	actions := []*action.Action{
+		&machCreating,
 		&updateStatusInScylla,
 	}
 	pipeline := action.NewPipeline(actions...)

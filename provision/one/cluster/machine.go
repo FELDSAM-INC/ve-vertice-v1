@@ -3,18 +3,18 @@ package cluster
 import (
 	"errors"
 	"fmt"
-	"time"
 	log "github.com/Sirupsen/logrus"
 	"github.com/megamsys/libgo/cmd"
 	"github.com/megamsys/libgo/safe"
 	"github.com/megamsys/opennebula-go/api"
+	"github.com/megamsys/opennebula-go/compute"
 	"github.com/megamsys/opennebula-go/disk"
 	"github.com/megamsys/opennebula-go/images"
-	"github.com/megamsys/opennebula-go/compute"
 	"github.com/megamsys/opennebula-go/virtualmachine"
 	"net"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 // CreateVM creates a vm in the specified node.
@@ -27,7 +27,7 @@ const (
 
 var ErrConnRefused = errors.New("connection refused")
 
-func (c *Cluster) CreateVM(opts compute.VirtualMachine, t string) (string, string, string, error) {
+func (c *Cluster) CreateVM(opts compute.VirtualMachine, throttle, storage string) (string, string, string, error) {
 
 	var (
 		addr    string
@@ -39,20 +39,21 @@ func (c *Cluster) CreateVM(opts compute.VirtualMachine, t string) (string, strin
 	for ; maxTries > 0; maxTries-- {
 
 		nodlist, err := c.Nodes()
+
 		for _, v := range nodlist {
 			if v.Metadata[api.ONEZONE] == opts.Region {
 				addr = v.Address
-				opts.Vnets, opts.ClusterId = c.getVnets(v, opts.Vnets)
+				opts.Vnets, opts.ClusterId = c.getVnets(v, opts.Vnets, storage)
 				if v.Metadata[api.VCPU_PERCENTAGE] != "" {
 					opts.Cpu = cpuThrottle(v.Metadata[api.VCPU_PERCENTAGE], opts.Cpu)
 				} else {
-					opts.Cpu = cpuThrottle(t, opts.Cpu)
+					opts.Cpu = cpuThrottle(throttle, opts.Cpu)
 				}
 			}
 		}
 
 		if addr == "" {
-			return addr, machine, vmid, fmt.Errorf("%s", cmd.Colorfy("Unavailable nodes (hint: start or beat it).\n", "red", "", ""))
+			return addr, machine, vmid, fmt.Errorf("%s", cmd.Colorfy("Unavailable region ( "+opts.Region+" ) nodes (hint: start or beat it).\n", "red", "", ""))
 		}
 		if err == nil {
 			machine, vmid, err = c.createVMInNode(opts, addr)
@@ -87,78 +88,74 @@ func (c *Cluster) CreateVM(opts compute.VirtualMachine, t string) (string, strin
 
 //create a vm in a node.
 func (c *Cluster) createVMInNode(opts compute.VirtualMachine, nodeAddress string) (string, string, error) {
-
-	node, err := c.getNodeByAddr(nodeAddress)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return "", "", err
 	}
-	opts.TemplateName = node.template
+
+	if opts.ClusterId != "" {
+		opts.TemplateName = node.template
+	} else {
+		opts.TemplateName = opts.Image
+	}
+
 	opts.T = node.Client
 
 	res, err := opts.Create()
 	if err != nil {
-		return "", "",err
+		return "", "", err
 	}
-  vmid := res.(string)
+	vmid := res.(string)
 	return opts.Name, vmid, nil
 }
 
-func (c *Cluster) GetIpPort(opts virtualmachine.Vnc, region string) (string, string, error) {
+func (c *Cluster) GetVM(opts virtualmachine.Vnc, region string) (*virtualmachine.VM, error) {
 
-	addr, err := c.getRegion(region)
+	node, err := c.getNodeRegion(region)
 	if err != nil {
-		return "", "", err
+		return nil, err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return "", "", err
-	}
-	//opts.TemplateName = node.template
 	opts.T = node.Client
-  res := &virtualmachine.VM{}
-
-   	err = safe.WaitCondition(3*time.Minute, 10*time.Second, func() (bool,error) {
-			res, err = opts.GetVm()
-			if err != nil {
-				return false, err
-			}
-			return res.HistoryRecords.History != nil, nil
-		})
-
-		if err != nil {
-			return "", "", err
-		}
-		vnchost := res.GetHostIp()
-		vncport := res.GetPort()
-
-
+	res, err := opts.GetVm()
 	if err != nil {
-		return "", "", wrapErrorWithCmd(node, err, "createVM")
+		return nil, wrapErrorWithCmd(node, err, "GetVM")
 	}
 
-	return vnchost, vncport, nil
+	return res, err
 }
-
-
 
 // DestroyVM kills a vm, returning an error in case of failure.
 func (c *Cluster) DestroyVM(opts compute.VirtualMachine) error {
 
-	addr, err := c.getRegion(opts.Region)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	opts.T = node.Client
 
 	_, err = opts.Delete()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"DestroyVM")
+		return wrapErrorWithCmd(node, err, "DestroyVM")
+	}
+
+	return nil
+}
+
+// DestroyVM kills a vm, returning an error in case of failure.
+func (c *Cluster) ForceDestoryVM(opts compute.VirtualMachine) error {
+
+	node, err := c.getNodeRegion(opts.Region)
+	if err != nil {
+		return err
+	}
+
+	opts.T = node.Client
+
+	_, err = opts.RecoverDelete()
+	if err != nil {
+		return wrapErrorWithCmd(node, err, "DestroyVM")
 	}
 
 	return nil
@@ -178,20 +175,16 @@ func (c *Cluster) VM(opts compute.VirtualMachine, action string) error {
 }
 func (c *Cluster) StartVM(opts compute.VirtualMachine) error {
 
-	addr, err := c.getRegion(opts.Region)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	opts.T = node.Client
 
 	_, err = opts.Resume()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"StartVM")
+		return wrapErrorWithCmd(node, err, "StartVM")
 	}
 
 	return nil
@@ -199,20 +192,16 @@ func (c *Cluster) StartVM(opts compute.VirtualMachine) error {
 
 func (c *Cluster) RestartVM(opts compute.VirtualMachine) error {
 
-	addr, err := c.getRegion(opts.Region)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	opts.T = node.Client
 
 	_, err = opts.Reboot()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"RebootVM")
+		return wrapErrorWithCmd(node, err, "RebootVM")
 	}
 
 	return nil
@@ -220,39 +209,29 @@ func (c *Cluster) RestartVM(opts compute.VirtualMachine) error {
 
 func (c *Cluster) StopVM(opts compute.VirtualMachine) error {
 
-	addr, err := c.getRegion(opts.Region)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	opts.T = node.Client
 
 	_, err = opts.Poweroff()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"StopVM")
+		return wrapErrorWithCmd(node, err, "StopVM")
 	}
 
 	return nil
 }
 
-func (c *Cluster) getNodeByAddr(addr string) (node, error) {
+func (c *Cluster) getNodeRegion(region string) (node, error) {
 	return c.getNode(func(s Storage) (Node, error) {
-		return s.RetrieveNode(addr)
+		return s.RetrieveNode(region)
 	})
 }
 
 func (c *Cluster) SnapVMDisk(opts compute.Image) (string, error) {
-
-	addr, err := c.getRegion(opts.Region)
-	if err != nil {
-		return "", err
-	}
-
-	node, err := c.getNodeByAddr(addr)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return "", err
 	}
@@ -260,20 +239,14 @@ func (c *Cluster) SnapVMDisk(opts compute.Image) (string, error) {
 
 	res, err := opts.DiskSnap()
 	if err != nil {
-		return "",wrapErrorWithCmd(node, err,"CreateSnap")
+		return "", wrapErrorWithCmd(node, err, "CreateSnap")
 	}
-  imageId := res.(string)
-	return imageId,nil
+	imageId := res.(string)
+	return imageId, nil
 }
 
 func (c *Cluster) RemoveSnap(opts compute.Image) error {
-
-	addr, err := c.getRegion(opts.Region)
-	if err != nil {
-		return err
-	}
-
-	node, err := c.getNodeByAddr(addr)
+	node, err := c.getNodeRegion(opts.Region)
 	if err != nil {
 		return err
 	}
@@ -281,96 +254,78 @@ func (c *Cluster) RemoveSnap(opts compute.Image) error {
 
 	_, err = opts.RemoveImage()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"DeleteSnap")
+		return wrapErrorWithCmd(node, err, "DeleteSnap")
 	}
 
 	return nil
 }
 
-
-func (c *Cluster) IsSnapReady(v *images.Image,region string) error {
-
-	addr, err := c.getRegion(region)
-	if err != nil {
-		return err
-	}
-
-	node, err := c.getNodeByAddr(addr)
+func (c *Cluster) IsSnapReady(v *images.Image, region string) error {
+	node, err := c.getNodeRegion(region)
 	if err != nil {
 		return err
 	}
 	v.T = node.Client
-	err = safe.WaitCondition(3*time.Minute, 10*time.Second, func() (bool,error) {
-	res, err := v.ImageShow()
+	err = safe.WaitCondition(10*time.Minute, 10*time.Second, func() (bool, error) {
+		res, err := v.ImageShow()
+		if err != nil || res.State_string() == "failure" {
+			return false, fmt.Errorf("fails to create snapshot")
+		}
+		return (res.State_string() == "ready"), nil
+	})
 	if err != nil {
-		return false, err
+		return err
 	}
-	return res.State_string() == "ready", nil
-  })
-
 	return nil
 }
 
-func (c *Cluster) GetDiskId(vd *disk.VmDisk,region string) ([]int, error) {
+func (c *Cluster) GetDiskId(vd *disk.VmDisk, region string) ([]int, error) {
 	var a []int
-	addr, err := c.getRegion(region)
+	node, err := c.getNodeRegion(region)
 	if err != nil {
-		return a,err
-	}
-
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return a,err
+		return a, err
 	}
 	vd.T = node.Client
 
 	dsk, err := vd.ListDisk()
 	if err != nil {
-		return a,err
+		return a, err
 	}
 
 	a = dsk.GetDiskIds()
-  return a, nil
+	return a, nil
 }
 
-func (c *Cluster) AttachDisk(v *disk.VmDisk,region string) error {
+func (c *Cluster) AttachDisk(v *disk.VmDisk, region string) error {
 
-	addr, err := c.getRegion(region)
+	node, err := c.getNodeRegion(region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	v.T = node.Client
 
 	_, err = v.AttachDisk()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"AttachDisk")
+		return wrapErrorWithCmd(node, err, "AttachDisk")
 	}
 
 	return nil
 }
 
-func (c *Cluster) DetachDisk(v *disk.VmDisk,region string) error {
+func (c *Cluster) DetachDisk(v *disk.VmDisk, region string) error {
 
-	addr, err := c.getRegion(region)
+	node, err := c.getNodeRegion(region)
 	if err != nil {
 		return err
 	}
 
-	node, err := c.getNodeByAddr(addr)
-	if err != nil {
-		return err
-	}
 	v.T = node.Client
 
 	_, err = v.DetachDisk()
 	if err != nil {
-		return wrapErrorWithCmd(node, err,"DetachDisk")
- }
+		return wrapErrorWithCmd(node, err, "DetachDisk")
+	}
 
 	return nil
 }
@@ -383,25 +338,4 @@ func cpuThrottle(vcpu, cpu string) string {
 	realCPU := throttle / cpuThrottleFactor
 	cpu = strconv.FormatFloat(realCPU, 'f', 6, 64) //ugly, compute has the info.
 	return cpu
-}
-
-func (c *Cluster) getRegion(region string) (string, error) {
-	var (
-		addr string
-	)
-	nodlist, err := c.Nodes()
-	if err != nil {
-		addr = ""
-	}
-	for _, v := range nodlist {
-		if v.Metadata[api.ONEZONE] == region {
-			addr = v.Address
-		}
-	}
-
-	if addr == "" {
-		return addr, fmt.Errorf("%s", cmd.Colorfy("Unavailable nodes (hint: start or beat it).\n", "red", "", ""))
-	}
-
-	return addr, nil
 }

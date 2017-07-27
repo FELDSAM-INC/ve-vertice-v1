@@ -2,6 +2,7 @@ package deployd
 
 import (
 	"github.com/megamsys/vertice/carton"
+	log "github.com/Sirupsen/logrus"
 )
 
 type Handler struct {
@@ -15,12 +16,17 @@ func NewHandler(c *Config) *Handler {
 }
 
 func (h *Handler) serveNSQ(r *carton.Requests) error {
-	p, err := carton.ParseRequest(r.CatId, r.Category, r.Action)
+	p, err := carton.ParseRequest(r)
 	if err != nil {
 		return err
 	}
- 	if rp := carton.NewReqOperator(r.CatId,r.Category,r.Action); rp != nil {
-		return rp.Accept(&p) //error is swalled here.
+ 	if rp := carton.NewReqOperator(r); rp != nil {
+		err = rp.Accept(&p)
+		if err != nil {
+			  log.Errorf("Error Request : %s  -  %s  : %s",r.Category, r.Action,err)
+		}
+
+		return  err //error is swalled here.
 	}
 
 	return nil

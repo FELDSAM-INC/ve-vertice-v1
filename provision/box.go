@@ -24,7 +24,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
-
+  "github.com/megamsys/libgo/api"
 	"github.com/megamsys/libgo/utils"
 	constants "github.com/megamsys/libgo/utils"
 	"github.com/megamsys/vertice/carton/bind"
@@ -113,23 +113,28 @@ type BoxDeploy struct {
 // IP-addressable.
 type Box struct {
 	Id           string
-	AccountsId   string
+	AccountId   string
 	CartonsId    string
 	CartonId     string
 	OrgId        string
+	ApiArgs      api.ApiArgs
+	QuotaId      string
 	CartonName   string
 	Name         string
 	Level        BoxLevel
 	DomainName   string
 	Tosca        string
+	StorageType  string
 	ImageVersion string
+	ImageName    string
+	Snapshot     bool
 	Compute      BoxCompute
 	Repo         *repository.Repo
 	Status       utils.Status
 	State        utils.State
 	Provider     string
 	PublicIp     string
-	VMId         string
+	InstanceId   string
 	Region       string
 	Vnets        map[string]string
 	SSH          BoxSSH
@@ -149,6 +154,7 @@ func (b *Box) String() string {
 func (b *Box) GetMemory() uint64 {
 	return b.Compute.numMemory()
 }
+
 func (b *Box) ConGetMemory() uint64 {
 	return b.Compute.ConnumMemory()
 }

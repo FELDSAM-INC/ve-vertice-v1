@@ -4,12 +4,15 @@ import (
 	"errors"
 
 	"github.com/megamsys/vertice/meta"
+	"github.com/megamsys/vertice/storage"
 	"github.com/megamsys/vertice/subd/deployd"
 	"github.com/megamsys/vertice/subd/dns"
 	"github.com/megamsys/vertice/subd/docker"
+        "github.com/megamsys/vertice/subd/rancher"
 	"github.com/megamsys/vertice/subd/eventsd"
 	"github.com/megamsys/vertice/subd/httpd"
 	"github.com/megamsys/vertice/subd/metricsd"
+	"github.com/megamsys/vertice/snapshots"
 )
 
 type Config struct {
@@ -20,6 +23,9 @@ type Config struct {
 	Metrics *metricsd.Config `toml:"metrics"`
 	DNS     *dns.Config      `toml:"dns"`
 	Events  *eventsd.Config  `toml:"events"`
+	Storage *storage.Config  `toml:"storage"`
+  Rancher *rancher.Config  `toml:"rancher"`
+  Snapshots *snapshots.Config `toml:"snapshots"`
 }
 
 func (c Config) String() string {
@@ -30,7 +36,10 @@ func (c Config) String() string {
 		c.Docker.String() + "\n" +
 		c.Metrics.String() + "\n" +
 		c.DNS.String() + "\n" +
-		c.Events.String())
+		c.Events.String() + "\n" +
+    c.Storage.String() + "\n" +
+    c.Rancher.String() + "\n" +
+    c.Snapshots.String())
 
 }
 
@@ -44,6 +53,12 @@ func NewConfig() *Config {
 	c.Metrics = metricsd.NewConfig()
 	c.Events = eventsd.NewConfig()
 	c.DNS = dns.NewConfig()
+	c.Storage = storage.NewConfig()
+
+        c.Rancher = rancher.NewConfig()
+
+	c.Snapshots = snapshots.NewConfig()
+
 	return c
 }
 
