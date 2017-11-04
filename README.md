@@ -2,7 +2,7 @@
 vertice
 =================
 
-vertice is the core engine for Megam Vertice
+vertice is the core engine for MegamVertice/VirtEngine
 
 
 ### Requirements
@@ -20,11 +20,11 @@ vertice is the core engine for Megam Vertice
 
 
 ```
-mkdir -p code/megam/go/src/github.com/megamsys
+mkdir -p code/virtengine/go/src/github.com/virtengine
 
-cd code/megam/go/src/github.com/megamsys
+cd code/virtengine/go/src/github.com/virtengine
 
-git clone https://github.com/megamsys/vertice.git
+git clone https://github.com/virtengine/vertice.git
 
 cd vertice
 
@@ -35,13 +35,11 @@ make
 
 ### Documentation
 
-Refer [documentation] (http://docs.megam.io)
-
-
+Refer [documentation] (http://docs.virtengine.com)
 
 We are glad to help if you have questions, or request for new features..
 
-[twitter @megamsys](http://twitter.com/megamsys) [email support@megam.io](<support@megam.io>)
+[email hello@virtengine.com](<hello@virtengine.com>)
 
 
 
@@ -51,12 +49,13 @@ We are glad to help if you have questions, or request for new features..
 
 |                      |                                          |
 |:---------------------|:-----------------------------------------|
-| **Author:**          | Rajthilak (<rajthilak@megam.io>)
+| **Developers:**      | Rajthilak (<rajthilak@megam.io>)
 | 	                   | KishorekumarNeelamegam (<nkishore@megam.io>)
 |                      | Ranjitha  (<ranjithar@megam.io>)
 |                      | MVijaykanth  (<mvijaykanth@megam.io>)
 |                      | Yeshwanth Kumar (<getyesh@megam.io>)
-| **Copyright:**       | Copyright (c) 2013-2016 Megam Systems.
+| **Authors:**         | DET-IO Pty. Ltd, Megam Systems LLP.
+| **Copyright:**       | Copyright (c) VirtEngine, DET-IO Pty Ltd. / Megam Systems
 | **License:**         | Apache License, Version 2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
