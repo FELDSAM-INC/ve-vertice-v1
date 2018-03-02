@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/megamsys/libgo/hc"
+	"github.com/virtengine/libgo/hc"
 )
 
 var httpRegexp = regexp.MustCompile(`^https?://`)

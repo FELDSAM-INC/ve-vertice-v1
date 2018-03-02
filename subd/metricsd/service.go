@@ -2,12 +2,12 @@ package metricsd
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/metrix"
-	"github.com/megamsys/vertice/storage"
-	"github.com/megamsys/vertice/snapshots"
-	"github.com/megamsys/vertice/subd/deployd"
-	"github.com/megamsys/vertice/subd/docker"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/metrix"
+	"github.com/virtengine/vertice/storage"
+	"github.com/virtengine/vertice/snapshots"
+	"github.com/virtengine/vertice/subd/deployd"
+	"github.com/virtengine/vertice/subd/docker"
 	"time"
 
 )

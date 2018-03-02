@@ -3,7 +3,7 @@ package docker
 import (
 	"fmt"
 
-	"github.com/megamsys/vertice/repository"
+	"github.com/virtengine/vertice/repository"
 )
 
 type boxImages struct {

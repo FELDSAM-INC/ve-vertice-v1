@@ -1,7 +1,7 @@
 package metrix
 
 import (
-	"github.com/megamsys/vertice/carton"
+	"github.com/virtengine/vertice/carton"
 	"time"
 )
 

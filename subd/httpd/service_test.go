@@ -5,7 +5,7 @@ import (
 	"net/http"
 	//"net/http/httptest"
 
-	"github.com/megamsys/vertice/auth"
+	"github.com/virtengine/vertice/auth"
 	//	"gopkg.in/check.v1"
 )
 

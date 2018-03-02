@@ -3,9 +3,9 @@ package machine
 import (
 	/*	"bytes"
 
-		"github.com/megamsys/vertice/provision"
-		"github.com/megamsys/vertice/provision/provisiontest"
-		"github.com/megamsys/opennebula-go/compute" */
+		"github.com/virtengine/vertice/provision"
+		"github.com/virtengine/vertice/provision/provisiontest"
+		"github.com/virtengine/opennebula-go/compute" */
 	"gopkg.in/check.v1"
 )
 

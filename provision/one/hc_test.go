@@ -21,7 +21,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 
-	"github.com/megamsys/libgo/hc"
+	"github.com/virtengine/libgo/hc"
 	"gopkg.in/check.v1"*/
 )
 

@@ -9,8 +9,8 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/google/go-github/github"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/repository"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/repository"
 	"golang.org/x/oauth2"
 )
 

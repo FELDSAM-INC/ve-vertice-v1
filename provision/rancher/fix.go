@@ -2,7 +2,7 @@ package rancher
 /*
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/vertice/provision/docker/container"
+	"github.com/virtengine/vertice/provision/docker/container"
 )
 
 func (p *rancherProvisioner) fixContainers() error {

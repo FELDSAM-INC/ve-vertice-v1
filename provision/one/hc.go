@@ -18,7 +18,7 @@ package one
 
 import (
 	"errors"
-	"github.com/megamsys/libgo/hc"
+	"github.com/virtengine/libgo/hc"
 	"strings"
 )
 

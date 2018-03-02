@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/tabwriter"
   "strconv"
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/cmd"
 )
 
 const (

@@ -22,8 +22,8 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/provision"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/provision"
 )
 
 type LifecycleOpts struct {

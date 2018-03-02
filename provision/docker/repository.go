@@ -1,8 +1,8 @@
 package docker
 
 import (
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/docker/container"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/docker/container"
 )
 
 //this is essentially converting box to a container.

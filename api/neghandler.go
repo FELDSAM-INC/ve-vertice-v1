@@ -5,7 +5,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
 	"github.com/googollee/go-socket.io"
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/cmd"
 	"github.com/rs/cors"
 	"net/http"
 )

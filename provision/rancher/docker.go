@@ -7,7 +7,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/megamsys/libgo/safe"
+	"github.com/virtengine/libgo/safe"
 )
 
 func urlToHost(urlStr string) string {

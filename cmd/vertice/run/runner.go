@@ -20,7 +20,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	pp "github.com/megamsys/libgo/cmd"
+	pp "github.com/virtengine/libgo/cmd"
 	"github.com/tj/go-spin"
 )
 

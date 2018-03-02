@@ -3,10 +3,10 @@ package machine
 import (
 	"testing"
 
-//	constants "github.com/megamsys/libgo/utils"
-	//"github.com/megamsys/opennebula-go/compute"
-	otesting "github.com/megamsys/opennebula-go/testing"
-//	"github.com/megamsys/vertice/provision"
+//	constants "github.com/virtengine/libgo/utils"
+	//"github.com/virtengine/opennebula-go/compute"
+	otesting "github.com/virtengine/opennebula-go/testing"
+//	"github.com/virtengine/vertice/provision"
 	"gopkg.in/check.v1"
 )
 

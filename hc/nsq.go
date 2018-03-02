@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	nsq "github.com/crackcomm/nsqueue/producer"
-	"github.com/megamsys/libgo/hc"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/libgo/hc"
+	"github.com/virtengine/vertice/meta"
 )
 
 func init() {

@@ -1,7 +1,7 @@
 package api
 
 import (
-//"github.com/megamsys/vertice/config"
+//"github.com/virtengine/vertice/config"
 //"gopkg.in/check.v1"
 )
 

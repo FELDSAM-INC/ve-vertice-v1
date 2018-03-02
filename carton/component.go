@@ -17,12 +17,12 @@ package carton
 
 import (
 	"encoding/json"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/libgo/pairs"
-	"github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/carton/bind"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/repository"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/pairs"
+	"github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/carton/bind"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/repository"
 	"gopkg.in/yaml.v2"
 	"strings"
 	"time"

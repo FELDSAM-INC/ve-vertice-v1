@@ -1,7 +1,7 @@
 package gitlab
 
 import (
-	"github.com/megamsys/vertice/repository"
+	"github.com/virtengine/vertice/repository"
 	"github.com/plouc/go-gitlab-client"
 )
 

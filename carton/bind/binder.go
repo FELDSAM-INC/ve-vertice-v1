@@ -17,7 +17,7 @@ package bind
 
 import (
 	"fmt"
-	"github.com/megamsys/libgo/os"
+	"github.com/virtengine/libgo/os"
 	"runtime"
 )
 

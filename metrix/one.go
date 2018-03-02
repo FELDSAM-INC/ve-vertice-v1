@@ -2,8 +2,8 @@ package metrix
 
 import (
 	"encoding/xml"
-	"github.com/megamsys/opennebula-go/metrics"
-	"github.com/megamsys/vertice/carton"
+	"github.com/virtengine/opennebula-go/metrics"
+	"github.com/virtengine/vertice/carton"
 	"io/ioutil"
 	"strconv"
 	"time"

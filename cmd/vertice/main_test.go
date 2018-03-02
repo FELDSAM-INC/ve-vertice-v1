@@ -17,8 +17,8 @@
 package main
 
 import (
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/cmd/vertice/run"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/cmd/vertice/run"
 	"gopkg.in/check.v1"
 	"os"
 )

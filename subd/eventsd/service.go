@@ -4,9 +4,9 @@ import (
 	"sync"
 	log "github.com/Sirupsen/logrus"
 	nsq "github.com/crackcomm/nsqueue/consumer"
-	"github.com/megamsys/vertice/subd/deployd"
-	"github.com/megamsys/libgo/events"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/vertice/subd/deployd"
+	"github.com/virtengine/libgo/events"
+	"github.com/virtengine/vertice/meta"
 )
 
 const (
