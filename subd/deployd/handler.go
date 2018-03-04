@@ -1,7 +1,7 @@
 package deployd
 
 import (
-	"github.com/megamsys/vertice/carton"
+	"github.com/virtengine/vertice/carton"
 	log "github.com/Sirupsen/logrus"
 )
 

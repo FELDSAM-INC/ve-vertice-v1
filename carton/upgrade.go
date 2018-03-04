@@ -5,7 +5,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/vertice/provision"
 )
 
 type Upgradeable struct {

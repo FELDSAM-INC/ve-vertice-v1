@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/megamsys/vertice",
+	"ImportPath": "github.com/virtengine/vertice",
 	"GoVersion": "go1.8",
 	"GodepVersion": "v77",
 	"Packages": [
@@ -329,103 +329,103 @@
 			"Rev": "6cc8c4b282a6ba012e70b8ff9da2e4457a005d59"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/action",
+			"ImportPath": "github.com/virtengine/libgo/action",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/api",
+			"ImportPath": "github.com/virtengine/libgo/api",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/cmd",
+			"ImportPath": "github.com/virtengine/libgo/cmd",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/db",
+			"ImportPath": "github.com/virtengine/libgo/db",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/errors",
+			"ImportPath": "github.com/virtengine/libgo/errors",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/events",
+			"ImportPath": "github.com/virtengine/libgo/events",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/events/addons",
+			"ImportPath": "github.com/virtengine/libgo/events/addons",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/events/alerts",
+			"ImportPath": "github.com/virtengine/libgo/events/alerts",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/events/bills",
+			"ImportPath": "github.com/virtengine/libgo/events/bills",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/hc",
+			"ImportPath": "github.com/virtengine/libgo/hc",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/io",
+			"ImportPath": "github.com/virtengine/libgo/io",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/os",
+			"ImportPath": "github.com/virtengine/libgo/os",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/pairs",
+			"ImportPath": "github.com/virtengine/libgo/pairs",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/safe",
+			"ImportPath": "github.com/virtengine/libgo/safe",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/utils",
+			"ImportPath": "github.com/virtengine/libgo/utils",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/libgo/utils/obc",
+			"ImportPath": "github.com/virtengine/libgo/utils/obc",
 			"Rev": "25a0f915d40795880df334c1c4a3adb05ee884c9"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/api",
+			"ImportPath": "github.com/virtengine/opennebula-go/api",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/compute",
+			"ImportPath": "github.com/virtengine/opennebula-go/compute",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/disk",
+			"ImportPath": "github.com/virtengine/opennebula-go/disk",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/images",
+			"ImportPath": "github.com/virtengine/opennebula-go/images",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/metrics",
+			"ImportPath": "github.com/virtengine/opennebula-go/metrics",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/template",
+			"ImportPath": "github.com/virtengine/opennebula-go/template",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/testing",
+			"ImportPath": "github.com/virtengine/opennebula-go/testing",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/users",
+			"ImportPath": "github.com/virtengine/opennebula-go/users",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
-			"ImportPath": "github.com/megamsys/opennebula-go/virtualmachine",
+			"ImportPath": "github.com/virtengine/opennebula-go/virtualmachine",
 			"Rev": "75cabca92fdfd29adff9c18e7cfa4f4b3d7a3c4b"
 		},
 		{
@@ -457,7 +457,7 @@
 			"Rev": "5007efa264d92316c43112bc573e754bc889b7b1"
 		},
 		{
-			"ImportPath": "github.com/pivotal-golang/bytefmt",
+			"ImportPath": "code.cloudfoundry.org/bytefmt",
 			"Rev": "b12c1522f4cbb5f35861bd5dd2c39a4fa996441a"
 		},
 		{

@@ -2,8 +2,8 @@ package carton
 
 import (
 	"encoding/json"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/vertice/meta"
 )
 
 const (

@@ -3,7 +3,7 @@ package snapshots
 import (
 	"bytes"
 	"fmt"
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/cmd"
 	"strconv"
 	"strings"
 	"text/tabwriter"

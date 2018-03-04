@@ -16,8 +16,8 @@
 package carton
 
 import (
-	"github.com/megamsys/vertice/repository"
-	"github.com/megamsys/libgo/pairs"
+	"github.com/virtengine/vertice/repository"
+	"github.com/virtengine/libgo/pairs"
 )
 
 type Operations struct {

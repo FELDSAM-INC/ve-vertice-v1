@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/megamsys/libgo/hc"
-	_ "github.com/megamsys/vertice/hc"
+	"github.com/virtengine/libgo/hc"
+	_ "github.com/virtengine/vertice/hc"
 )
 
 func ping(w http.ResponseWriter, r *http.Request) error {

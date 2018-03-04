@@ -3,8 +3,8 @@ package eventsd
 import (
 	"bytes"
 	"fmt"
-	"github.com/megamsys/libgo/cmd"
-	constants "github.com/megamsys/libgo/utils"
+	"github.com/virtengine/libgo/cmd"
+	constants "github.com/virtengine/libgo/utils"
 	"strconv"
 	"strings"
 	"text/tabwriter"

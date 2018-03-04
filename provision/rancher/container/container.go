@@ -11,14 +11,14 @@ import (
 	//	"encoding/json"
 	log "github.com/Sirupsen/logrus"
 	"github.com/megamsys/go-rancher/v2"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	//"github.com/megamsys/libgo/events"
-	//	"github.com/megamsys/libgo/events/alerts"
-	"github.com/megamsys/libgo/safe"
-	"github.com/megamsys/vertice/carton"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/rancher/cluster"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	//"github.com/virtengine/libgo/events"
+	//	"github.com/virtengine/libgo/events/alerts"
+	"github.com/virtengine/libgo/safe"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/rancher/cluster"
 )
 
 const (
@@ -223,7 +223,6 @@ func (c *Container) Remove(r RancherProvisioner) error {
 	return nil
 }
 
-
 type StartArgs struct {
 	Provisioner RancherProvisioner
 	Box         *provision.Box
@@ -246,8 +245,8 @@ func (c *Container) Start(args *StartArgs) error {
 }
 
 func (c *Container) Stop(p RancherProvisioner) error {
- st := p.Cluster()
- st.Region = c.Region
+	st := p.Cluster()
+	st.Region = c.Region
 	err := st.StopContainer(c.Id)
 	if err != nil {
 		log.Errorf("error on stop container %s: %s", c.Id, err)
@@ -257,7 +256,6 @@ func (c *Container) Stop(p RancherProvisioner) error {
 	c.SetMileStone(constants.StateStopped)
 	return nil
 }
-
 
 /*
 func (c *Container) Logs(p DockerProvisioner)   error {

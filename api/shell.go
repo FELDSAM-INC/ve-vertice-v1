@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/errors"
-	"github.com/megamsys/vertice/api/context"
-	"github.com/megamsys/vertice/carton"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/errors"
+	"github.com/virtengine/vertice/api/context"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/provision"
 	"golang.org/x/net/websocket"
 )
 

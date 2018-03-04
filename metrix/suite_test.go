@@ -6,7 +6,7 @@ import (
   //"fmt"
 
 	"github.com/BurntSushi/toml"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/vertice/meta"
 	"gopkg.in/check.v1"
 )
 

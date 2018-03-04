@@ -12,18 +12,18 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	//"github.com/megamsys/go-rancher/v2"
-	"github.com/megamsys/libgo/action"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/rancher/cluster"
-	"github.com/megamsys/vertice/provision/rancher/container"
-	"github.com/megamsys/vertice/repository"
-	"github.com/megamsys/vertice/router"
-	_ "github.com/megamsys/vertice/router/route53"
-	"github.com/megamsys/vertice/toml"
+	"github.com/virtengine/libgo/action"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/rancher/cluster"
+	"github.com/virtengine/vertice/provision/rancher/container"
+	"github.com/virtengine/vertice/repository"
+	"github.com/virtengine/vertice/router"
+	_ "github.com/virtengine/vertice/router/route53"
+	"github.com/virtengine/vertice/toml"
 )
 
 var mainRancherProvisioner *rancherProvisioner
@@ -180,9 +180,9 @@ func (p *rancherProvisioner) deployPipeline(box *provision.Box, imageId string, 
 		&updateStatusInScylla,
 		&setNetworkInfo,
 		&updateStatusInScylla,
-	//	&followLogsAndCommit,
-	//	&MileStoneUpdate,
-	//	&updateStatusInScylla,
+		//	&followLogsAndCommit,
+		//	&MileStoneUpdate,
+		//	&updateStatusInScylla,
 	}
 
 	pipeline := action.NewPipeline(actions...)
@@ -223,7 +223,7 @@ func (p *rancherProvisioner) Destroy(box *provision.Box, w io.Writer) error {
 		boxDestroy:  true,
 	}
 	pipeline := action.NewPipeline(
-	&destroyOldContainers,
+		&destroyOldContainers,
 	//&removeOldRoutes,
 	)
 	err = pipeline.Execute(args)
@@ -234,37 +234,37 @@ func (p *rancherProvisioner) Destroy(box *provision.Box, w io.Writer) error {
 }
 
 func (p *rancherProvisioner) Start(box *provision.Box, process string, w io.Writer) error {
-		containers, err := p.listContainersByBox(box)
+	containers, err := p.listContainersByBox(box)
+	if err != nil {
+		fmt.Fprintf(w, lb.W(lb.STARTING, lb.ERROR, fmt.Sprintf("Failed to list box containers (%s) --> %s", box.GetFullName(), err)))
+	}
+	return runInContainers(containers, func(c *container.Container, _ chan *container.Container) error {
+		err := c.Start(&container.StartArgs{
+			Provisioner: p,
+			Box:         box,
+		})
 		if err != nil {
-			fmt.Fprintf(w, lb.W(lb.STARTING, lb.ERROR, fmt.Sprintf("Failed to list box containers (%s) --> %s", box.GetFullName(), err)))
+			return err
 		}
-		return runInContainers(containers, func(c *container.Container, _ chan *container.Container) error {
-			err := c.Start(&container.StartArgs{
-				Provisioner: p,
-				Box:         box,
-			})
-			if err != nil {
-				return err
-			}
-			c.SetStatus(constants.StatusContainerStarting)
-			return nil
-		}, nil, true)
+		c.SetStatus(constants.StatusContainerStarting)
+		return nil
+	}, nil, true)
 
 	return nil
 }
 
 func (p *rancherProvisioner) Stop(box *provision.Box, process string, w io.Writer) error {
-		containers, err := p.listContainersByBox(box)
+	containers, err := p.listContainersByBox(box)
+	if err != nil {
+		fmt.Fprintf(w, lb.W(lb.STOPPING, lb.ERROR, fmt.Sprintf("Failed to list box containers (%s) --> %s", box.GetFullName(), err)))
+	}
+	return runInContainers(containers, func(c *container.Container, _ chan *container.Container) error {
+		err := c.Stop(p)
 		if err != nil {
-			fmt.Fprintf(w, lb.W(lb.STOPPING, lb.ERROR, fmt.Sprintf("Failed to list box containers (%s) --> %s", box.GetFullName(), err)))
+			log.Errorf("Failed to stop %q: %s", box.GetFullName(), err)
 		}
-		return runInContainers(containers, func(c *container.Container, _ chan *container.Container) error {
-			err := c.Stop(p)
-			if err != nil {
-				log.Errorf("Failed to stop %q: %s", box.GetFullName(), err)
-			}
-			return err
-		}, nil, true)
+		return err
+	}, nil, true)
 
 	return nil
 }

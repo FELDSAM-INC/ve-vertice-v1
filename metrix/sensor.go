@@ -17,7 +17,7 @@ package metrix
 
 import (
 	"encoding/json"
-	"github.com/megamsys/vertice/api"
+	"github.com/virtengine/vertice/api"
 	"time"
 )
 

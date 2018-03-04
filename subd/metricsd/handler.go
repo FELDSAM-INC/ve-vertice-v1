@@ -1,7 +1,7 @@
 package metricsd
 
 import (
-	"github.com/megamsys/vertice/metrix"
+	"github.com/virtengine/vertice/metrix"
 )
 
 type Handler struct {

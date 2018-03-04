@@ -8,10 +8,10 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
-	"github.com/megamsys/libgo/errors"
-	"github.com/megamsys/libgo/io"
-	"github.com/megamsys/vertice/api/context"
-	"github.com/megamsys/vertice/auth"
+	"github.com/virtengine/libgo/errors"
+	"github.com/virtengine/libgo/io"
+	"github.com/virtengine/vertice/api/context"
+	"github.com/virtengine/vertice/auth"
 )
 
 func validate(token string, r *http.Request) (auth.Token, error) {

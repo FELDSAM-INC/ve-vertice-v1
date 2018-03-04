@@ -6,12 +6,12 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/repository"
-	_ "github.com/megamsys/vertice/repository/github"
-	_ "github.com/megamsys/vertice/repository/gitlab"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/repository"
+	_ "github.com/virtengine/vertice/repository/github"
+	_ "github.com/virtengine/vertice/repository/gitlab"
 )
 
 type StateChangeOpts struct {

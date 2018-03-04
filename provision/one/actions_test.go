@@ -21,10 +21,10 @@ import (
 "sort"
 "strings"
 
-"github.com/megamsys/libgo/cmd"
-"github.com/megamsys/libgo/safe"
-"github.com/megamsys/vertice/carton"
-"github.com/megamsys/vertice/provision"
+"github.com/virtengine/libgo/cmd"
+"github.com/virtengine/libgo/safe"
+"github.com/virtengine/vertice/carton"
+"github.com/virtengine/vertice/provision"
 "gopkg.in/check.v1"
 */
 )

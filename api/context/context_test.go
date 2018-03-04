@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/context"
-	"github.com/megamsys/vertice/auth"
+	"github.com/virtengine/vertice/auth"
 	"gopkg.in/check.v1"
 )
 

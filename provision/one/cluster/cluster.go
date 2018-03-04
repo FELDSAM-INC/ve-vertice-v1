@@ -3,8 +3,8 @@ package cluster
 import (
 	"errors"
 	"fmt"
-	"github.com/megamsys/libgo/utils"
-	"github.com/megamsys/opennebula-go/api"
+	"github.com/virtengine/libgo/utils"
+	"github.com/virtengine/opennebula-go/api"
 	"sync/atomic"
 	"time"
 )

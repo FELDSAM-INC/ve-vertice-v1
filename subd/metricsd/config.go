@@ -8,8 +8,8 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/toml"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/toml"
 )
 
 const (
