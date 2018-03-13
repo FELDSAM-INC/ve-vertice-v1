@@ -15,7 +15,8 @@
  */
 package rancher
 
-/*import (
+/**
+import (
 	"bytes"
 	"encoding/json"
 	"fmt"

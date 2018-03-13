@@ -4,7 +4,7 @@
 
 package cluster
 
-/*
+/**
 import (
 	"bytes"
 	"fmt"

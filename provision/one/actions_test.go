@@ -16,15 +16,18 @@
 
 package one
 
-/*"reflect"
-"sort"
-"strings"
+/**
+import (
+	"reflect"
+	"sort"
+	"strings"
 
-"github.com/virtengine/libgo/cmd"
-"github.com/virtengine/libgo/safe"
-"github.com/virtengine/vertice/carton"
-"github.com/virtengine/vertice/provision"
-"gopkg.in/check.v1"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/libgo/safe"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/provision"
+	"gopkg.in/check.v1"
+)
 */
 
 /*

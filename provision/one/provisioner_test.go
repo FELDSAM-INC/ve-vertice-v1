@@ -16,14 +16,18 @@
 
 package one
 
-/*	"encoding/json"
+/**
+import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"sort"
 	"sync/atomic"
-	"time"*/
+	"time"
+)
+*/
 
 /*
 func (s *S) TestShouldBeRegistered(c *check.C) {

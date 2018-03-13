@@ -34,7 +34,8 @@ func logHandler(so socketio.Socket) {
 
 }
 
-/*import (
+/**
+import (
 	"encoding/json"
 	"fmt"
 	log "github.com/Sirupsen/logrus"

@@ -1,6 +1,6 @@
 package cluster
 
-/*
+/**
 import (
 	"encoding/json"
 	"errors"

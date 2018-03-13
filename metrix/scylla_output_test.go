@@ -1,6 +1,6 @@
 package metrix
 
-/*
+/**
 import (
 	"gopkg.in/check.v1"
 )

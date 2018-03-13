@@ -1,6 +1,6 @@
 package rancher
 
-/*
+/**
 import (
 	"errors"
 	"fmt"

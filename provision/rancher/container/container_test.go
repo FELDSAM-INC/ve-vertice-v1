@@ -1,6 +1,6 @@
 package container
 
-/*
+/**
 import (
 	"github.com/virtengine/vertice/provision"
 	"gopkg.in/check.v1"

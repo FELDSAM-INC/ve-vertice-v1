@@ -15,7 +15,8 @@
  */
 package docker
 
-/*import (
+/**
+import (
 	"bytes"
 	"encoding/json"
 	"fmt"

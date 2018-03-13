@@ -1,6 +1,6 @@
 package dockertest
 
-/*
+/**
 import (
 	"errors"
 	"testing"

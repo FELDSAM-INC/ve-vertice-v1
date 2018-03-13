@@ -1,6 +1,6 @@
 package docker
 
-/*
+/**
 import (
 	"net/http"
 	"net/http/httptest"

@@ -1,6 +1,6 @@
 package rancher
 
-/*
+/**
 import (
 	"github.com/virtengine/vertice/provision"
 	"gopkg.in/check.v1"

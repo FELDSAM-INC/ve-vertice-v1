@@ -1,6 +1,6 @@
 package rancher
 
-/*
+/**
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/vertice/provision/docker/container"

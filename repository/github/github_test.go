@@ -1,8 +1,12 @@
 package github
 
-//"testing"
+/**
+import(
+	"testing"
 
-//"gopkg.in/check.v1"
+	"gopkg.in/check.v1"
+)
+*/
 
 /*
 func Test(t *testing.T) {

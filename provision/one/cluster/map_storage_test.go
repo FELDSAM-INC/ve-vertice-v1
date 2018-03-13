@@ -4,7 +4,7 @@
 
 package cluster
 
-/*
+/**
 import (
 	"testing"
 	"github.com/virtengine/vertice/provision/one/cluster"

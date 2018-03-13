@@ -1,6 +1,7 @@
 package rancher
 
-/*import (
+/**
+import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
