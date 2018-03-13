@@ -1,8 +1,6 @@
 package docker
 
-import (
 //"gopkg.in/check.v1"
-)
 
 /*
 

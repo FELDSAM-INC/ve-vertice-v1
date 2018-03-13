@@ -1,9 +1,7 @@
 package api
 
-import (
 //"github.com/virtengine/vertice/config"
 //"gopkg.in/check.v1"
-)
 
 /*
 func (s *S) TestAppLogShouldReturnNotFoundWhenAppDoesNotExist(c *check.C) {

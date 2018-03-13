@@ -16,13 +16,6 @@
 package provision
 
 import (
-	"github.com/virtengine/libgo/api"
-	"github.com/virtengine/libgo/utils"
-	constants "github.com/virtengine/libgo/utils"
-	"github.com/virtengine/vertice/carton/bind"
-	lb "github.com/virtengine/vertice/logbox"
-	"github.com/virtengine/vertice/repository"
-	"gopkg.in/yaml.v2"
 	"net/url"
 	"os"
 	"os/user"
@@ -31,6 +24,14 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/carton/bind"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/repository"
+	"gopkg.in/yaml.v2"
 	//"encoding/json"
 )
 

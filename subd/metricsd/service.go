@@ -1,6 +1,9 @@
 package metricsd
 
 import (
+	"strconv"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/meta"
@@ -8,8 +11,6 @@ import (
 	"github.com/virtengine/vertice/storage"
 	"github.com/virtengine/vertice/subd/deployd"
 	"github.com/virtengine/vertice/subd/docker"
-	"strconv"
-	"time"
 )
 
 // Service manages the listener and handler for an HTTP endpoint.

@@ -18,8 +18,9 @@ package one
 
 import (
 	"errors"
-	"github.com/virtengine/libgo/hc"
 	"strings"
+
+	"github.com/virtengine/libgo/hc"
 )
 
 func init() {

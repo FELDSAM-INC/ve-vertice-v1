@@ -2,12 +2,13 @@ package carton
 
 import (
 	"bytes"
+	"io"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/cmd"
 	lw "github.com/virtengine/libgo/writer"
 	"github.com/virtengine/vertice/provision"
-	"io"
-	"time"
 )
 
 type DestroyOpts struct {

@@ -18,6 +18,10 @@ package carton
 
 import (
 	"bytes"
+	"io"
+	"strings"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/cmd"
 	"github.com/virtengine/libgo/events/alerts"
@@ -25,9 +29,6 @@ import (
 	lw "github.com/virtengine/libgo/writer"
 	"github.com/virtengine/vertice/provision"
 	"github.com/virtengine/vertice/repository"
-	"io"
-	"strings"
-	"time"
 )
 
 const DOCKER_TYPE = "dockercontainer"

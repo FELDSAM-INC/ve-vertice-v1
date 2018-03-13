@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net"
+	"net/url"
+	"sync"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/virtengine/libgo/cmd"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/carton"
 	"github.com/virtengine/vertice/metrix"
-	"net"
-	"net/url"
-	"sync"
 	//	"time"
 )
 

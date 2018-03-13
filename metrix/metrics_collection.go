@@ -1,8 +1,9 @@
 package metrix
 
 import (
-	"gopkg.in/yaml.v2"
 	"time"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Sensors []*Sensor

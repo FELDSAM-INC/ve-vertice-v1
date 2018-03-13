@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/virtengine/vertice/api/context"
 	"net/http"
+
+	"github.com/virtengine/vertice/api/context"
 )
 
 type Handler func(http.ResponseWriter, *http.Request) error

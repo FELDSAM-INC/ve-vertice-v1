@@ -1,9 +1,10 @@
 package marketplaces
 
 import (
+	"testing"
+
 	"github.com/virtengine/vertice/meta"
 	"gopkg.in/check.v1"
-	"testing"
 )
 
 func Test(t *testing.T) { check.TestingT(t) }

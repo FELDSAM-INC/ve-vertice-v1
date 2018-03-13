@@ -2,13 +2,14 @@ package carton
 
 import (
 	"encoding/json"
+	"strings"
+
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/pairs"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/meta"
 	"github.com/virtengine/vertice/provision"
 	"gopkg.in/yaml.v2"
-	"strings"
 )
 
 const (

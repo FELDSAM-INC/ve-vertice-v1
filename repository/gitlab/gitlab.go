@@ -1,8 +1,8 @@
 package gitlab
 
 import (
-	"github.com/virtengine/vertice/repository"
 	"github.com/plouc/go-gitlab-client"
+	"github.com/virtengine/vertice/repository"
 )
 
 func init() {

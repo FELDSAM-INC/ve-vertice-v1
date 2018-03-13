@@ -2,17 +2,18 @@ package carton
 
 import (
 	"bytes"
-	"code.cloudfoundry.org/bytefmt"
 	"encoding/json"
+	"io"
+	"strconv"
+	"strings"
+	"time"
+
+	"code.cloudfoundry.org/bytefmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/cmd"
 	lw "github.com/virtengine/libgo/writer"
 	"github.com/virtengine/vertice/provision"
-	"io"
-	"strconv"
-	"strings"
-	"time"
 )
 
 type DiskOpts struct {

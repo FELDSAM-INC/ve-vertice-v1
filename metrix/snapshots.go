@@ -1,8 +1,9 @@
 package metrix
 
 import (
-	"github.com/virtengine/vertice/carton"
 	"time"
+
+	"github.com/virtengine/vertice/carton"
 )
 
 const (

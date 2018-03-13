@@ -17,12 +17,13 @@ package carton
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/pairs"
 	"gopkg.in/yaml.v2"
-	"reflect"
-	"strings"
 )
 
 const (

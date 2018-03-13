@@ -3,10 +3,11 @@ package marketplacesd
 import (
 	"bytes"
 	"fmt"
-	"github.com/virtengine/libgo/cmd"
 	"strconv"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/virtengine/libgo/cmd"
 )
 
 type Config struct {

@@ -10,7 +10,7 @@ import (
 	//	"os"
 	//	"encoding/json"
 	log "github.com/Sirupsen/logrus"
-	"github.com/virtengine/go-rancher/v2"
+	client "github.com/virtengine/go-rancher/v2"
 	"github.com/virtengine/libgo/utils"
 	constants "github.com/virtengine/libgo/utils"
 	//"github.com/virtengine/libgo/events"

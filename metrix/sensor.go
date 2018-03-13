@@ -17,8 +17,9 @@ package metrix
 
 import (
 	"encoding/json"
-	"github.com/virtengine/vertice/api"
 	"time"
+
+	"github.com/virtengine/vertice/api"
 )
 
 const (

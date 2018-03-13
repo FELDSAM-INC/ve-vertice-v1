@@ -1,12 +1,13 @@
 package eventsd
 
 import (
+	"sync"
+
 	log "github.com/Sirupsen/logrus"
 	nsq "github.com/crackcomm/nsqueue/consumer"
 	"github.com/virtengine/libgo/events"
 	"github.com/virtengine/vertice/meta"
 	"github.com/virtengine/vertice/subd/deployd"
-	"sync"
 )
 
 const (

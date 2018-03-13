@@ -4,6 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"strings"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/cmd"
@@ -16,9 +20,6 @@ import (
 	"github.com/virtengine/vertice/meta"
 	"github.com/virtengine/vertice/provision"
 	"gopkg.in/yaml.v2"
-	"io"
-	"strings"
-	"time"
 )
 
 const (

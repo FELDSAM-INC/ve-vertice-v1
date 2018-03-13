@@ -3,11 +3,12 @@ package eventsd
 import (
 	"bytes"
 	"fmt"
-	"github.com/virtengine/libgo/cmd"
-	constants "github.com/virtengine/libgo/utils"
 	"strconv"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/virtengine/libgo/cmd"
+	constants "github.com/virtengine/libgo/utils"
 )
 
 type Mailer struct {

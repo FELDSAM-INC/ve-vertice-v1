@@ -3,6 +3,10 @@ package carton
 import (
 	"bytes"
 	"encoding/json"
+	"io"
+	"strings"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/cmd"
@@ -11,9 +15,6 @@ import (
 	lw "github.com/virtengine/libgo/writer"
 	"github.com/virtengine/vertice/meta"
 	"gopkg.in/yaml.v2"
-	"io"
-	"strings"
-	"time"
 )
 
 const (

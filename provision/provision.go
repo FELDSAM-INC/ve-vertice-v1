@@ -18,9 +18,10 @@ package provision
 import (
 	"errors"
 	"fmt"
+	"io"
+
 	"github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/carton/bind"
-	"io"
 )
 
 var (

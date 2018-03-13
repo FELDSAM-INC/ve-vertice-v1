@@ -1,8 +1,6 @@
 package auth
 
-import (
 //	"gopkg.in/check.v1"
-)
 
 /*
 func (s *S) TestGetUserByEmail(c *check.C) {

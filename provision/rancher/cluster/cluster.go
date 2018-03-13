@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/virtengine/go-rancher/v2"
+	client "github.com/virtengine/go-rancher/v2"
 )
 
 const (

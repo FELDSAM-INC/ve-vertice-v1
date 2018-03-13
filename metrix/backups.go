@@ -1,9 +1,10 @@
 package metrix
 
 import (
+	"time"
+
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/carton"
-	"time"
 )
 
 const (

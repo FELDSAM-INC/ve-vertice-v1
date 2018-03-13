@@ -1,7 +1,5 @@
 package docker
 
-import ()
-
 /*
 func (s *S) TestUsePlatformImage(c *check.C) {
 	app1 := &app.App{Name: "app1", Platform: "python", Deploys: 40}

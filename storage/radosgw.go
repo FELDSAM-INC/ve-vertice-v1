@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/virtengine/go-radosgw/api"
+	radosAPI "github.com/virtengine/go-radosgw/api"
 )
 
 type RadosGW struct {

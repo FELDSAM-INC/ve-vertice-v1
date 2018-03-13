@@ -1,8 +1,9 @@
 package metrix
 
 import (
-	"gopkg.in/yaml.v2"
 	"strconv"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Metric struct {

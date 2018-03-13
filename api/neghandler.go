@@ -2,13 +2,14 @@ package api
 
 import (
 	"fmt"
+	"net/http"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
 	"github.com/googollee/go-socket.io"
-	"github.com/virtengine/libgo/cmd"
 	"github.com/rs/cors"
+	"github.com/virtengine/libgo/cmd"
 	"golang.org/x/net/websocket"
-	"net/http"
 )
 
 type MegdHandler struct {

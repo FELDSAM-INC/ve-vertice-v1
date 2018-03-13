@@ -17,8 +17,9 @@ package marketplaces
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 var (

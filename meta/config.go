@@ -3,13 +3,14 @@ package meta
 import (
 	"bytes"
 	"fmt"
-	"github.com/virtengine/libgo/api"
-	"github.com/virtengine/libgo/cmd"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/cmd"
 )
 
 const (

@@ -19,6 +19,11 @@ import (
 	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
+	"strconv"
+	"strings"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/events"
@@ -30,10 +35,6 @@ import (
 	"github.com/virtengine/vertice/meta"
 	"github.com/virtengine/vertice/provision"
 	"gopkg.in/yaml.v2"
-	"io"
-	"strconv"
-	"strings"
-	"time"
 	// "github.com/virtengine/libgo/cmd"
 )
 

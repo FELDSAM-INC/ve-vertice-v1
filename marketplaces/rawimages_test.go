@@ -1,9 +1,7 @@
 package marketplaces
 
-// import (
 // 	"gopkg.in/check.v1"
 // 	//  "encoding/json"
-// )
 //
 // func (s *S) TestGetRawimages (c *check.C) {
 //   r := new(RawImages)

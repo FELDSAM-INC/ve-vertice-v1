@@ -3,15 +3,16 @@ package docker
 import (
 	"bytes"
 	"fmt"
+	"strconv"
+	"strings"
+	"text/tabwriter"
+	"time"
+
 	"github.com/virtengine/libgo/cmd"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/provision/docker"
 	"github.com/virtengine/vertice/provision/docker/cluster"
 	"github.com/virtengine/vertice/toml"
-	"strconv"
-	"strings"
-	"text/tabwriter"
-	"time"
 )
 
 const (

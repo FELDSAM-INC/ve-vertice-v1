@@ -2,6 +2,7 @@ package provision
 
 import (
 	"encoding/json"
+
 	log "github.com/Sirupsen/logrus"
 	nsqc "github.com/crackcomm/nsqueue/consumer"
 	nsqp "github.com/crackcomm/nsqueue/producer"

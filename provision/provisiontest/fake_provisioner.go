@@ -2,10 +2,11 @@ package provisiontest
 
 import (
 	"fmt"
-	constants "github.com/virtengine/libgo/utils"
-	"github.com/virtengine/vertice/provision"
 	"sync"
 	"sync/atomic"
+
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/provision"
 )
 
 var uniqueIpCounter int32 = 0

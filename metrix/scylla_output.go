@@ -1,14 +1,15 @@
 package metrix
 
 import (
+	"strconv"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/events"
 	"github.com/virtengine/libgo/events/alerts"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/carton"
-	"strconv"
-	"time"
 )
 
 func SendMetricsToScylla(metrics Sensors, hostname string) (err error) {

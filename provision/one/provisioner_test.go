@@ -16,7 +16,6 @@
 
 package one
 
-import (
 /*	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -25,8 +24,6 @@ import (
 	"sort"
 	"sync/atomic"
 	"time"*/
-
-)
 
 /*
 func (s *S) TestShouldBeRegistered(c *check.C) {

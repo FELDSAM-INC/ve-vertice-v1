@@ -2,9 +2,10 @@ package carton
 
 import (
 	"encoding/json"
+	"strings"
+
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/vertice/meta"
-	"strings"
 )
 
 const (

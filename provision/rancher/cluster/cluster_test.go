@@ -1,7 +1,5 @@
 package cluster
 
-import ()
-
 /*func TestNewCluster(t *testing.T) {
 	var tests = []struct {
 		input []Node

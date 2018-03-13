@@ -17,14 +17,15 @@ package carton
 
 import (
 	"bytes"
+	"io"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/cmd"
 	"github.com/virtengine/libgo/pairs"
 	lw "github.com/virtengine/libgo/writer"
 	"github.com/virtengine/vertice/provision"
 	"github.com/virtengine/vertice/repository"
-	"io"
-	"time"
 )
 
 const (

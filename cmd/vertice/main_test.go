@@ -17,10 +17,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/virtengine/libgo/cmd"
 	"github.com/virtengine/vertice/cmd/vertice/run"
 	"gopkg.in/check.v1"
-	"os"
 )
 
 type S struct{}

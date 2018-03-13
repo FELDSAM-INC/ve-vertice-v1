@@ -323,11 +323,11 @@
 		},
 		{
 			"ImportPath": "github.com/virtengine/go-radosgw/api",
-			"Rev": "c3d30c1a944a3e8ccfc073968010d62b064285d7"
+			"Rev": "eb6b7a3a3a3ae3277368a2a7c4f3c56eb12b100e"
 		},
 		{
 			"ImportPath": "github.com/virtengine/go-radosgw/encodeUrl",
-			"Rev": "c3d30c1a944a3e8ccfc073968010d62b064285d7"
+			"Rev": "eb6b7a3a3a3ae3277368a2a7c4f3c56eb12b100e"
 		},
 		{
 			"ImportPath": "github.com/virtengine/go-rancher/v2",

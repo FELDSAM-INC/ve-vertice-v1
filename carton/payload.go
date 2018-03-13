@@ -17,10 +17,11 @@ package carton
 
 import (
 	"encoding/json"
-	log "github.com/Sirupsen/logrus"
-	"github.com/virtengine/libgo/api"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/virtengine/libgo/api"
 )
 
 type Payload struct {

@@ -290,7 +290,7 @@ func (p *rancherProvisioner) SetBoxStatus(box *provision.Box, w io.Writer, statu
 
 	fmt.Fprintf(w, lb.W(lb.DEPLOY, lb.INFO, fmt.Sprintf("---- status %s box %s ----", box.GetFullName(), status.String())))
 	actions := []*action.Action{
-	//&updateStatusInScylla,
+		//&updateStatusInScylla,
 	}
 	pipeline := action.NewPipeline(actions...)
 

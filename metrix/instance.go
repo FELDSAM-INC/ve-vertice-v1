@@ -1,12 +1,13 @@
 package metrix
 
 import (
+	"strings"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/virtengine/libgo/events/alerts"
 	constants "github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/carton"
-	"strings"
-	"time"
 )
 
 const (

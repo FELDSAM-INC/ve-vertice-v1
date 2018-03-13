@@ -16,10 +16,11 @@
 package provision
 
 import (
-	"code.cloudfoundry.org/bytefmt"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"code.cloudfoundry.org/bytefmt"
 )
 
 type BoxCompute struct {

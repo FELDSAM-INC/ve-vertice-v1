@@ -17,8 +17,9 @@ package bind
 
 import (
 	"fmt"
-	"github.com/virtengine/libgo/os"
 	"runtime"
+
+	"github.com/virtengine/libgo/os"
 )
 
 // EnvVar represents a environment variable for a carton.

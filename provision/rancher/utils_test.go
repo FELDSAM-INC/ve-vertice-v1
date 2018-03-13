@@ -1,8 +1,6 @@
 package rancher
 
-import (
 //"gopkg.in/check.v1"
-)
 
 /*
 

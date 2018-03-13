@@ -2,6 +2,7 @@ package carton
 
 import (
 	"encoding/json"
+
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/pairs"
 )

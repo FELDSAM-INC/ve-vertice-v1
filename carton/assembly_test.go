@@ -1,9 +1,7 @@
 package carton
 
-// import (
 // 	"gopkg.in/check.v1"
 //   "fmt"
-// )
 
 // func (s *S) TestGetAccount (c *check.C) {
 //   s.Credentials.Email = "hello@virtengine.com"

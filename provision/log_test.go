@@ -1,11 +1,9 @@
 package provision
 
-import (
 //	"sync"
 //	"time"
 
 //	"gopkg.in/check.v1"
-)
 
 /*
 

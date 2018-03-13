@@ -16,14 +16,12 @@
 
 package one
 
-import (
 /*	"net/http"
 	"net/http/httptest"
 	"net/url"
 
 	"github.com/virtengine/libgo/hc"
 	"gopkg.in/check.v1"*/
-)
 
 /*
 
