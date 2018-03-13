@@ -3,9 +3,9 @@ package carton
 import (
 	"bytes"
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/cmd"
-	lw "github.com/megamsys/libgo/writer"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/cmd"
+	lw "github.com/virtengine/libgo/writer"
+	"github.com/virtengine/vertice/provision"
 	"io"
 	"time"
 )

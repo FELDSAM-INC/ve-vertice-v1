@@ -22,9 +22,9 @@ import (
 	"testing"
 
 	"github.com/BurntSushi/toml"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/subd/deployd"
-	"github.com/megamsys/vertice/subd/httpd"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/subd/deployd"
+	"github.com/virtengine/vertice/subd/httpd"
 	"gopkg.in/check.v1"
 )
 

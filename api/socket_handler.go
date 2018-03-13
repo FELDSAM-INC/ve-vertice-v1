@@ -5,8 +5,8 @@ import (
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/googollee/go-socket.io"
-	"github.com/megamsys/libgo/cmd"
-	//"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/cmd"
+	//"github.com/virtengine/vertice/provision"
 )
 
 const (

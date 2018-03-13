@@ -3,9 +3,10 @@ package cluster
 import (
 	"errors"
 	"fmt"
-	"github.com/megamsys/opennebula-go/api"
 	"sync/atomic"
 	"time"
+
+	"github.com/virtengine/opennebula-go/api"
 )
 
 var (

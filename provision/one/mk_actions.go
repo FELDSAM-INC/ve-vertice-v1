@@ -2,12 +2,13 @@ package one
 
 import (
 	"fmt"
-	"github.com/megamsys/libgo/action"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/opennebula-go/images"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision/one/machine"
 	"io/ioutil"
+
+	"github.com/virtengine/libgo/action"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/opennebula-go/images"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision/one/machine"
 )
 
 var createImage = action.Action{

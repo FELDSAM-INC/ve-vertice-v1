@@ -2,7 +2,7 @@ package metricsd
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/vertice/metrix"
+	"github.com/virtengine/vertice/metrix"
 )
 
 type Handler struct {

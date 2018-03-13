@@ -22,16 +22,16 @@ import (
 	"io/ioutil"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/action"
-	"github.com/megamsys/libgo/events/alerts"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/opennebula-go/images"
-	vm "github.com/megamsys/opennebula-go/virtualmachine"
-	"github.com/megamsys/vertice/carton"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/one/machine"
+	"github.com/virtengine/libgo/action"
+	"github.com/virtengine/libgo/events/alerts"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/opennebula-go/images"
+	vm "github.com/virtengine/opennebula-go/virtualmachine"
+	"github.com/virtengine/vertice/carton"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/one/machine"
 )
 
 type runMachineActionsArgs struct {

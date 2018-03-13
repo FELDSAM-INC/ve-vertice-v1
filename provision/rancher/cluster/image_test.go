@@ -12,7 +12,7 @@ import (
 
 	"github.com/fsouza/go-dockerclient"
 	dtesting "github.com/fsouza/go-dockerclient/testing"
-	"github.com/megamsys/libgo/safe"
+	"github.com/virtengine/libgo/safe"
 )
 
 func TestRemoveImage(t *testing.T) {

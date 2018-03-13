@@ -2,7 +2,7 @@ package marketplacesd
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/vertice/marketplaces"
+	"github.com/virtengine/vertice/marketplaces"
 )
 
 type Handler struct {

@@ -1,8 +1,8 @@
 package metrix
 
 import (
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/carton"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/carton"
 	"time"
 )
 

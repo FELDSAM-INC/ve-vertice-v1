@@ -21,10 +21,10 @@ import (
 	"io"
 
 	//	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/action"
-	constants "github.com/megamsys/libgo/utils"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/action"
+	constants "github.com/virtengine/libgo/utils"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision"
 )
 
 func (p *oneProvisioner) ISODeploy(m *provision.Box, w io.Writer) error {

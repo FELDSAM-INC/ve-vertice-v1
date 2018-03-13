@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/megamsys/libgo/hc"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/libgo/hc"
+	"github.com/virtengine/vertice/meta"
 	"gopkg.in/yaml.v2"
 )
 

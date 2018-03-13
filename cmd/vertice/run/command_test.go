@@ -16,7 +16,7 @@
 package run
 
 import (
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/cmd"
 	"gopkg.in/check.v1"
 )
 

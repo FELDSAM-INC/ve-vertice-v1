@@ -2,12 +2,12 @@
 vertice
 =======
 
-Vertice is the core engine for Megam Vertice 1.5.x and is open source. 
+Vertice is the core engine for VirtEngine Vertice 1.5.x and is open source. 
 
 
 # Roadmap for 2.0
 
-Read the [Deployment design](https://github.com/megamsys/verticedev/blob/master/proposals/01.deployments.md).
+Read the [Deployment design](https://github.com/virtengine/verticedev/blob/master/proposals/01.deployments.md).
 
 ## Where is the code for 2.0
 
@@ -40,11 +40,11 @@ We have moved the development to private gitlab as it will have enterprise featu
 
 
 ```
-mkdir -p code/megam/go/src/github.com/megamsys
+mkdir -p code/virtengine/go/src/github.com/virtengine
 
-cd code/megam/go/src/github.com/megamsys
+cd code/virtengine/go/src/github.com/virtengine
 
-git clone https://github.com/megamsys/vertice.git
+git clone https://github.com/virtengine/vertice.git
 
 cd vertice
 
@@ -55,18 +55,18 @@ make
 
 ### Documentation
 
-[development documentation] (https://github.com/megamsys/verticedev/tree/master/development)
+[development documentation] (https://github.com/virtengine/verticedev/tree/master/development)
 
-[documentation] (http://docs.megam.io) for usage.
+[documentation] (http://docs.virtengine.com) for usage.
 
 
 
 
 We are glad to help if you have questions, or request for new features..
 
-[twitter @megamsys](http://twitter.com/megamsys) [email support@megam.io](<support@megam.io>)
+[twitter @virtengine](http://twitter.com/virtengine) [email support@virtengine.com](<support@virtengine.com>)
 
-[devkit] (https://github.com/megamsys/verticedev)
+[devkit] (https://github.com/virtengine/verticedev)
 
 # License
 

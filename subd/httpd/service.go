@@ -10,8 +10,8 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
-	"github.com/megamsys/vertice/api"
-	"github.com/megamsys/vertice/subd/httpd/shutdown"
+	"github.com/virtengine/vertice/api"
+	"github.com/virtengine/vertice/subd/httpd/shutdown"
 	"gopkg.in/tylerb/graceful.v1"
 )
 

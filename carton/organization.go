@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	//log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/api"
-	//  constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/libgo/api"
+	//  constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/meta"
 	"gopkg.in/yaml.v2"
 )
 

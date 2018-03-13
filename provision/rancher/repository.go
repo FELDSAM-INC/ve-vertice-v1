@@ -1,8 +1,8 @@
 package rancher
 
 import (
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/rancher/container"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/rancher/container"
 )
 
 //this is essentially converting box to a container.

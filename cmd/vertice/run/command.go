@@ -25,7 +25,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/cmd"
 	"launchpad.net/gnuflag"
 )
 

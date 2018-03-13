@@ -1,8 +1,8 @@
 package metrix
 
 import (
-	"github.com/megamsys/vertice/carton"
-	"github.com/megamsys/vertice/storage"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/storage"
 	"strconv"
 	"time"
 )

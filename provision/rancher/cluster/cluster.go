@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/megamsys/go-rancher/v2"
+	"github.com/virtengine/go-rancher/v2"
 )
 
 const (

@@ -2,8 +2,8 @@ package carton
 
 import (
 	"encoding/json"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/libgo/pairs"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/pairs"
 )
 
 type Quota struct {

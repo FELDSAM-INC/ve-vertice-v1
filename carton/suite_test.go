@@ -1,7 +1,7 @@
 package carton
 
 import (
-	"github.com/megamsys/libgo/api"
+	"github.com/virtengine/libgo/api"
 	"gopkg.in/check.v1"
 	"testing"
 )

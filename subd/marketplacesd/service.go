@@ -6,13 +6,13 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	nsq "github.com/crackcomm/nsqueue/consumer"
-	"github.com/megamsys/libgo/cmd"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/carton"
-	"github.com/megamsys/vertice/marketplaces"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/subd/deployd"
+	"github.com/virtengine/libgo/cmd"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/marketplaces"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/subd/deployd"
 )
 
 const (

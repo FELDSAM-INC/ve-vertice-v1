@@ -7,16 +7,16 @@ import (
 	"runtime/pprof"
 
 	log "github.com/Sirupsen/logrus"
-	pp "github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/subd/deployd"
-	"github.com/megamsys/vertice/subd/dns"
-	"github.com/megamsys/vertice/subd/docker"
-	"github.com/megamsys/vertice/subd/eventsd"
-	"github.com/megamsys/vertice/subd/httpd"
-	"github.com/megamsys/vertice/subd/marketplacesd"
-	"github.com/megamsys/vertice/subd/metricsd"
-	"github.com/megamsys/vertice/subd/rancher"
+	pp "github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/subd/deployd"
+	"github.com/virtengine/vertice/subd/dns"
+	"github.com/virtengine/vertice/subd/docker"
+	"github.com/virtengine/vertice/subd/eventsd"
+	"github.com/virtengine/vertice/subd/httpd"
+	"github.com/virtengine/vertice/subd/marketplacesd"
+	"github.com/virtengine/vertice/subd/metricsd"
+	"github.com/virtengine/vertice/subd/rancher"
 )
 
 // Server represents a container for the metadata and storage data and services.

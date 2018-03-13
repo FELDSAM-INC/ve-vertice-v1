@@ -2,11 +2,11 @@ package carton
 
 import (
 	"encoding/json"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/libgo/pairs"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/pairs"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/provision"
 	"gopkg.in/yaml.v2"
 	"strings"
 )

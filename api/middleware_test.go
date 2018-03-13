@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"time"
 
-	"github.com/megamsys/libgo/errors"
-	"github.com/megamsys/libgo/io"
-	"github.com/megamsys/vertice/api/context"
+	"github.com/virtengine/libgo/errors"
+	"github.com/virtengine/libgo/io"
+	"github.com/virtengine/vertice/api/context"
 	"gopkg.in/check.v1"
 )
 

@@ -3,16 +3,16 @@ package run
 import (
 	"errors"
 
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/storage"
-	"github.com/megamsys/vertice/subd/deployd"
-	"github.com/megamsys/vertice/subd/dns"
-	"github.com/megamsys/vertice/subd/docker"
-	"github.com/megamsys/vertice/subd/eventsd"
-	"github.com/megamsys/vertice/subd/httpd"
-	"github.com/megamsys/vertice/subd/marketplacesd"
-	"github.com/megamsys/vertice/subd/metricsd"
-	"github.com/megamsys/vertice/subd/rancher"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/storage"
+	"github.com/virtengine/vertice/subd/deployd"
+	"github.com/virtengine/vertice/subd/dns"
+	"github.com/virtengine/vertice/subd/docker"
+	"github.com/virtengine/vertice/subd/eventsd"
+	"github.com/virtengine/vertice/subd/httpd"
+	"github.com/virtengine/vertice/subd/marketplacesd"
+	"github.com/virtengine/vertice/subd/metricsd"
+	"github.com/virtengine/vertice/subd/rancher"
 )
 
 type Config struct {

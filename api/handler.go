@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/megamsys/vertice/api/context"
+	"github.com/virtengine/vertice/api/context"
 	"net/http"
 )
 

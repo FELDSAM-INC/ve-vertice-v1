@@ -2,12 +2,13 @@ package eventsd
 
 import (
 	b64 "encoding/base64"
-	"github.com/megamsys/libgo/events"
-	"github.com/megamsys/libgo/events/alerts"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/opennebula-go/api"
-	"github.com/megamsys/opennebula-go/users"
-	"github.com/megamsys/vertice/subd/deployd"
+
+	"github.com/virtengine/libgo/events"
+	"github.com/virtengine/libgo/events/alerts"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/opennebula-go/api"
+	"github.com/virtengine/opennebula-go/users"
+	"github.com/virtengine/vertice/subd/deployd"
 )
 
 type Handler struct {

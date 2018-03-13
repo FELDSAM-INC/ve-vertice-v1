@@ -3,9 +3,9 @@ package eventsd
 import (
 	log "github.com/Sirupsen/logrus"
 	nsq "github.com/crackcomm/nsqueue/consumer"
-	"github.com/megamsys/libgo/events"
-	"github.com/megamsys/vertice/meta"
-	"github.com/megamsys/vertice/subd/deployd"
+	"github.com/virtengine/libgo/events"
+	"github.com/virtengine/vertice/meta"
+	"github.com/virtengine/vertice/subd/deployd"
 	"sync"
 )
 

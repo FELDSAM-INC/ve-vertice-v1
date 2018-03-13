@@ -11,12 +11,12 @@ import (
 	//	"encoding/json"
 	log "github.com/Sirupsen/logrus"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	lw "github.com/megamsys/libgo/writer"
-	"github.com/megamsys/vertice/carton"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/docker/cluster"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	lw "github.com/virtengine/libgo/writer"
+	"github.com/virtengine/vertice/carton"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/docker/cluster"
 )
 
 const (

@@ -18,8 +18,8 @@ package carton
 import (
 	"encoding/json"
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/libgo/pairs"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/pairs"
 	"gopkg.in/yaml.v2"
 	"reflect"
 	"strings"

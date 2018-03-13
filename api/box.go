@@ -5,8 +5,8 @@ import (
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/googollee/go-socket.io"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/provision"
 )
 
 func logHandler(so socketio.Socket) {
@@ -38,8 +38,8 @@ func logHandler(so socketio.Socket) {
 	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/vertice/provision"
 	"net/http"
 )
 var upgrader = websocket.Upgrader{

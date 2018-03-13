@@ -3,13 +3,14 @@ package deployd
 import (
 	"bytes"
 	"fmt"
-	"github.com/megamsys/libgo/cmd"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/opennebula-go/api"
-	"github.com/megamsys/vertice/provision/one"
 	"strconv"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/virtengine/libgo/cmd"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/opennebula-go/api"
+	"github.com/virtengine/vertice/provision/one"
 )
 
 const (

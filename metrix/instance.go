@@ -2,9 +2,9 @@ package metrix
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/events/alerts"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/carton"
+	"github.com/virtengine/libgo/events/alerts"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/carton"
 	"strings"
 	"time"
 )

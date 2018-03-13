@@ -3,8 +3,8 @@ package meta
 import (
 	"bytes"
 	"fmt"
-	"github.com/megamsys/libgo/api"
-	"github.com/megamsys/libgo/cmd"
+	"github.com/virtengine/libgo/api"
+	"github.com/virtengine/libgo/cmd"
 	"os"
 	"os/user"
 	"path/filepath"

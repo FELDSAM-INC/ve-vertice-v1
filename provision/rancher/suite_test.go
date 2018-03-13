@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	dtesting "github.com/fsouza/go-dockerclient/testing"
-	"github.com/megamsys/libgo/safe"
-	"github.com/megamsys/vertice/provision"
+	"github.com/virtengine/libgo/safe"
+	"github.com/virtengine/vertice/provision"
 	"gopkg.in/check.v1"
 )
 
@@ -35,7 +35,7 @@ var _ = check.Suite(&S{})
 func (s *S) SetUpSuite(c *check.C) {
 	s.collName = "docker_unit"
 	s.imageCollName = "docker_image"
-	s.repoNamespace = "github.com/megamsys/vertice"
+	s.repoNamespace = "github.com/virtengine/vertice"
 	s.sshUser = "root"
 	s.port = "8888"
 	config.Set("database:url", "127.0.0.1:27017?maxPoolSize=100")
@@ -43,7 +43,7 @@ func (s *S) SetUpSuite(c *check.C) {
 	config.Set("docker:repository-namespace", s.repoNamespace)
 	config.Set("docker:router", "fake")
 	config.Set("docker:collection", s.collName)
-	config.Set("docker:deploy-cmd", "/var/lib/"github.com/megamsys/vertice/deploy")
+	config.Set("docker:deploy-cmd", "/var/lib/"github.com/virtengine/vertice/deploy")
 	config.Set("docker:run-cmd:bin", "/usr/local/bin/circusd /etc/circus/circus.ini")
 	config.Set("docker:run-cmd:port", s.port)
 	config.Set("docker:user", s.sshUser)
@@ -57,10 +57,10 @@ func (s *S) SetUpSuite(c *check.C) {
 	config.Set("admin-team", "admin")
 	config.Set("docker:registry-max-try", 1)
 	config.Set("auth:hash-cost", bcrypt.MinCost)
-	s.deployCmd = "/var/lib/"github.com/megamsys/vertice/deploy"
+	s.deployCmd = "/var/lib/"github.com/virtengine/vertice/deploy"
 	s.runBin = "/usr/local/bin/circusd"
 	s.runArgs = "/etc/circus/circus.ini"
-	os.Setenv("github.com/megamsys/vertice_TARGET", "http://localhost")
+	os.Setenv("github.com/virtengine/vertice_TARGET", "http://localhost")
 	s.oldProvisioner = app.Provisioner
 	var err error
 	s.storage, err = db.Conn()
@@ -126,7 +126,7 @@ func (s *S) TearDownTest(c *check.C) {
 func (s *S) TearDownSuite(c *check.C) {
 	s.clusterSess.Close()
 	s.storage.Close()
-	os.Unsetenv("github.com/megamsys/vertice_TARGET")
+	os.Unsetenv("github.com/virtengine/vertice_TARGET")
 	app.Provisioner = s.oldProvisioner
 }
 

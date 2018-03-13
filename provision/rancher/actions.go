@@ -8,14 +8,14 @@ import (
 	"sync"
 
 	log "github.com/Sirupsen/logrus"
-	//	"github.com/megamsys/go-rancher/v2"
-	"github.com/megamsys/libgo/action"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/rancher/container"
-	//"github.com/megamsys/vertice/router"
+	//	"github.com/virtengine/go-rancher/v2"
+	"github.com/virtengine/libgo/action"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/rancher/container"
+	//"github.com/virtengine/vertice/router"
 )
 
 type runContainerActionsArgs struct {

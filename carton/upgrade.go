@@ -5,8 +5,8 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	lw "github.com/megamsys/libgo/writer"
-	"github.com/megamsys/vertice/provision"
+	lw "github.com/virtengine/libgo/writer"
+	"github.com/virtengine/vertice/provision"
 )
 
 type Upgradeable struct {

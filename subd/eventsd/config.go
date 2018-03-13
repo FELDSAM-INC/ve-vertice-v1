@@ -6,10 +6,10 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/libgo/events"
-	constants "github.com/megamsys/libgo/utils"
-	"github.com/megamsys/vertice/meta"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/libgo/events"
+	constants "github.com/virtengine/libgo/utils"
+	"github.com/virtengine/vertice/meta"
 )
 
 type Config struct {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/opennebula-go/metrics"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/opennebula-go/metrics"
 )
 
 // Showback returns the metrics of the one cluster

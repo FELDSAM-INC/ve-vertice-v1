@@ -9,13 +9,13 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/fsouza/go-dockerclient"
-	"github.com/megamsys/libgo/action"
-	"github.com/megamsys/libgo/utils"
-	constants "github.com/megamsys/libgo/utils"
-	lb "github.com/megamsys/vertice/logbox"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/provision/docker/container"
-	"github.com/megamsys/vertice/router"
+	"github.com/virtengine/libgo/action"
+	"github.com/virtengine/libgo/utils"
+	constants "github.com/virtengine/libgo/utils"
+	lb "github.com/virtengine/vertice/logbox"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/provision/docker/container"
+	"github.com/virtengine/vertice/router"
 )
 
 type runContainerActionsArgs struct {

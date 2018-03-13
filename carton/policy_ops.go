@@ -18,11 +18,11 @@ package carton
 import (
 	"bytes"
 	log "github.com/Sirupsen/logrus"
-	"github.com/megamsys/libgo/cmd"
-	"github.com/megamsys/libgo/pairs"
-	lw "github.com/megamsys/libgo/writer"
-	"github.com/megamsys/vertice/provision"
-	"github.com/megamsys/vertice/repository"
+	"github.com/virtengine/libgo/cmd"
+	"github.com/virtengine/libgo/pairs"
+	lw "github.com/virtengine/libgo/writer"
+	"github.com/virtengine/vertice/provision"
+	"github.com/virtengine/vertice/repository"
 	"io"
 	"time"
 )
