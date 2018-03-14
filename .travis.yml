@@ -1,0 +1,15 @@
+language: go
+sudo: false
+go:
+  - "1.8"
+  - "1.9"
+  - "1.10"
+  - "master"
+
+go_import_path: github.com/virtengine/vertice
+
+before_install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+install: make get
+script: make test

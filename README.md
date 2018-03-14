@@ -2,7 +2,9 @@
 vertice
 =======
 
-Vertice is the core engine for VirtEngine Vertice 1.5.x and is open source. 
+[![Travis Build Status](https://travis-ci.org/VirtEngine/vertice.svg?branch=1.5.2)](https://travis-ci.org/VirtEngine/vertice)
+
+Vertice is the core engine for VirtEngine Vertice 1.5.x and is open source.
 
 
 # Roadmap for 2.0

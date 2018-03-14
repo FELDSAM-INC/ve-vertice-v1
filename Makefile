@@ -89,9 +89,9 @@ _vertice:
 		-o vertice ./cmd/vertice
 
 _verticer:
-	./vertice -v start --config $(VIRTENGINE_HOME)/vertice/conf/vertice.conf
+	./vertice -v start --config ./conf/vertice.conf
 
-test: _go_test _vertice _verticer
+test: _go_test _vertice # _verticer
 
 _install_deadcode: git
 	go get $(GO_EXTRAFLAGS) github.com/remyoudompheng/go-misc/deadcode
