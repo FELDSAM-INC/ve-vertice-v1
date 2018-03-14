@@ -40,7 +40,7 @@ FATAL: you need bazaar (bzr) to download vertice dependencies.
        Check README.md for details
 endef
 
-.PHONY: all check-path get hg git bzr get-code test
+.PHONY: all check-path get hg git bzr get-code test dep
 
 all: check-path get test
 
@@ -56,7 +56,7 @@ ifndef GOPATH
 endif
 	@exit 0
 
-get: hg git bzr get-code godep
+get: hg git bzr dep
 
 hg:
 	$(if $(shell hg), , $(error $(HG_ERROR)))
@@ -76,7 +76,7 @@ godep:
 	godep restore ./...
 
 dep:
-	dep ensure -v
+	dep ensure -v -vendor-only
 
 _go_test:
 	go clean $(GO_EXTRAFLAGS) ./...
@@ -90,7 +90,6 @@ _vertice:
 
 _verticer:
 	./vertice -v start --config $(VIRTENGINE_HOME)/vertice/conf/vertice.conf
-
 
 test: _go_test _vertice _verticer
 

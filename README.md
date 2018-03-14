@@ -35,23 +35,21 @@ We have moved the development to private gitlab as it will have enterprise featu
 
 ``vertice -v start``
 
-
 ### Compile from source
 
-
-```
-mkdir -p code/virtengine/go/src/github.com/virtengine
-
-cd code/virtengine/go/src/github.com/virtengine
-
-git clone https://github.com/virtengine/vertice.git
-
-cd vertice
-
-make
-
+```bash
+$ mkdir -p $GOPATH/src/github.com/virtengine
+$ cd $GOPATH/src/github.com/virtengine
+$ git clone https://github.com/virtengine/vertice.git
+$ cd vertice
+$ make build
 ```
 
+You can use the following command to run it:
+
+```bash
+$ ./vertice -v start --config ./conf/vertice.conf
+```
 
 ### Documentation
 
