@@ -17,7 +17,8 @@
 ###############################################################################
 
 GOPATH  := $(GOPATH):$(shell pwd)/../../../../
-
+BUILD_DATE := $(shell date +%Y-%m-%d_%H:%M:%S%Z)
+COMMIT_HASH := $(shell git rev-parse HEAD)
 
 define HG_ERROR
 
@@ -74,13 +75,18 @@ godep:
 	go get $(GO_EXTRAFLAGS) github.com/tools/godep
 	godep restore ./...
 
+dep:
+	dep ensure -v
+
 _go_test:
 	go clean $(GO_EXTRAFLAGS) ./...
 	go test $(GO_EXTRAFLAGS) ./...
 
 _vertice:
 	rm -f vertice
-	go build $(GO_EXTRAFLAGS) -ldflags="-X main.date=$(shell date +%Y-%m-%d_%H:%M:%S%Z) -X main.commit=$(shell commit=`git rev-parse HEAD`; cd $$GOPATH/src/github.com/virtengine/libgo && libcommit=`git rev-parse HEAD`; echo $$commit"_lib_"$$libcommit)" -o vertice ./cmd/vertice
+	go build $(GO_EXTRAFLAGS) \
+		-ldflags="-X main.date=$(BUILD_DATE) -X main.commit=$(COMMIT_HASH)_lib_$(shell cd vendor/github.com/virtengine/libgo && git rev-parse HEAD)" \
+		-o vertice ./cmd/vertice
 
 _verticer:
 	./vertice -v start --config $(VIRTENGINE_HOME)/vertice/conf/vertice.conf

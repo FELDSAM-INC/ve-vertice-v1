@@ -434,51 +434,51 @@
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/api",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/compute",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/disk",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/images",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/metrics",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/snapshot",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/template",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/testing",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/users",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/virtualmachine",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/opennebula-go/vnet",
-			"Rev": "8ba1abfaf6711351d86da2d126a6f4918a05eac3"
+			"Rev": "585488976ebf9acd071ec1bdb04758cbc32eac22"
 		},
 		{
 			"ImportPath": "github.com/virtengine/whmcs_go/whmcs",
-			"Rev": "b9028c317d746e4910f2c9104bf2ed3672d72f6e"
+			"Rev": "95062843b21e784a4778a27060f4375fbfa1c75f"
 		},
 		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
