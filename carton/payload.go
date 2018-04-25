@@ -27,9 +27,9 @@ import (
 type Payload struct {
 	Id        string    `json:"id"`
 	Action    string    `json:"action"`
-	CatId     string    `json:"cat_id"`
-	AccountId string    `json:"account_id"`
-	CatType   string    `json:"cattype"`
+	CatId     string    `json:"cat_id"`     // Cartons Id
+	AccountId string    `json:"account_id"` // Account Id
+	CatType   string    `json:"cattype"`    // Cartons Type
 	Category  string    `json:"category"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -38,6 +38,7 @@ type PayloadConvertor interface {
 	Convert(p *Payload) (*Requests, error)
 }
 
+// NewPayload decode the Payload from given raw NSQ JSON message
 func NewPayload(b []byte) (*Payload, error) {
 	p := &Payload{}
 	err := json.Unmarshal(b, &p)
@@ -47,9 +48,9 @@ func NewPayload(b []byte) (*Payload, error) {
 	return p, err
 }
 
-/**
-**fetch the request json from riak and parse the json to struct
-**/
+// Convert will convert the NSQ Payload to the API Requests struct
+// If the 'CatId' is invalid (len() < 10), it will call Vertice API "/requests/:id" to retrieve the Requests list.
+// Otherwise, it will use the given information from the Payload to create a Requests object.
 func (p *Payload) Convert() (*Requests, error) {
 	if len(strings.TrimSpace(p.CatId)) < 10 {
 		return listReqsById(p.Id, p.AccountId)

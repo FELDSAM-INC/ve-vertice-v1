@@ -58,11 +58,11 @@
   name = "github.com/virtengine/go-rancher"
 
 [[constraint]]
-  branch = "master"
+  branch = "feature/resize"
   name = "github.com/virtengine/libgo"
 
 [[constraint]]
-  branch = "master"
+  branch = "feature/resize"
   name = "github.com/virtengine/opennebula-go"
 
 [[constraint]]

@@ -35,6 +35,14 @@ type Server struct {
 }
 
 // NewServer returns a new instance of Server built from a config.
+// The instance contains 7 services:
+//  1. deployd
+//  2. httpd
+//  3. docker
+//  4. metricsd
+//  5. eventsd
+//  6. rancher
+// 	7. marketplaces
 func NewServer(c *Config, version string) (*Server, error) {
 	s := &Server{
 		version: version,

@@ -379,6 +379,26 @@ func (s UpdateNetworkProcess) Process(ca Cartons) error {
 	return nil
 }
 
+type ResizeProcess struct {
+	Name string
+}
+
+func (s ResizeProcess) String() string {
+	var buf bytes.Buffer
+	_, _ = buf.WriteString("RESIZE CARTON ")
+	_, _ = buf.WriteString(s.Name)
+	return buf.String()
+}
+
+func (s ResizeProcess) Process(cs Cartons) error {
+	for _, c := range cs {
+		if err := c.Resize(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // UpgradeProcs represents a command for starting  cartons.
 type RunningProcess struct {
 	Name             string

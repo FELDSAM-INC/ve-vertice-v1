@@ -5,7 +5,7 @@ import (
 	"github.com/virtengine/libgo/api"
 	"github.com/virtengine/libgo/utils"
 	"github.com/virtengine/vertice/provision"
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 const (
@@ -175,6 +175,16 @@ func (c *Carton) NetworkUpdate() error {
 		err := NetworkUpdate(&box)
 		if err != nil {
 			log.Errorf("Unable to upgrade box : %s", err)
+			return err
+		}
+	}
+	return nil
+}
+
+func (c *Carton) Resize() error {
+	for _, box := range *c.Boxes {
+		if err := Resize(&box); err != nil {
+			log.Errorf("Unable to resize box : %s", err)
 			return err
 		}
 	}

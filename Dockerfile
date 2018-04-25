@@ -2,8 +2,10 @@ FROM golang:1.10-alpine3.7
 
 ## Prepare system tools dependencies
 RUN set -xe \
+  && DEP_VERSION=0.4.1 \
   && apk add --no-cache git mercurial bzr curl make gcc musl-dev \
-  && curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  && curl -fL https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o /usr/local/bin/dep \
+  && chmod a+x /usr/local/bin/dep
 
 ENV SRC_DIR=/go/src/github.com/virtengine/vertice
 WORKDIR ${SRC_DIR}
@@ -25,12 +27,12 @@ RUN set -xe \
   && export COMMIT_HASH=$(git rev-parse HEAD) \
   && export LIBGO_COMMIT_HASH=$(cd vendor/github.com/virtengine/libgo && git rev-parse HEAD) \
   && go build ${GO_EXTRAFLAGS} \
-    -ldflags="-X main.date=${BUILD_DATE} -X main.commit=${COMMIT_HASH}_lib_${LIBGO_COMMIT_HASH}" \
-    -o vertice ./cmd/vertice
+  -ldflags="-X main.date=${BUILD_DATE} -X main.commit=${COMMIT_HASH}_lib_${LIBGO_COMMIT_HASH}" \
+  -o vertice ./cmd/vertice
 
 ## Command to start server
 CMD [ "/go/src/github.com/virtengine/vertice/vertice", \
-      "-v", \
-      "start", \
-      "--config", "/go/src/github.com/virtengine/vertice/conf/vertice.conf" \
-]
+  "-v", \
+  "start", \
+  "--config", "/go/src/github.com/virtengine/vertice/conf/vertice.conf" \
+  ]

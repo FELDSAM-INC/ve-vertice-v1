@@ -20,7 +20,7 @@ import (
 	"strings"
 	"time"
 
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 var (
@@ -47,8 +47,10 @@ var (
 	SUSPEND      = "suspend"
 
 	//the operation actions is just one called upgrade
-	OPERATIONS = "operations"
-	UPGRADE    = "upgrade"
+	OPERATIONS     = "operations"
+	UPGRADE        = "upgrade"
+	NETWORK_UPDATE = "assembly.network.update"
+	RESIZE         = "resize"
 
 	//snapshot actions
 	SNAPSHOT    = "snapshot"
@@ -61,8 +63,6 @@ var (
 	BACKUPS      = "backup"
 	IMAGECREATE  = "backupcreate"
 	IMAGEDESTROY = "backupremove"
-
-	NETWORK_UPDATE = "assembly.network.update"
 
 	// disks actions
 	DISKS      = "disks"
@@ -86,6 +86,14 @@ func ParseRequest(r *Requests) (MegdProcessor, error) {
 	return NewReqParser(r.CatId).ParseRequest(r.Category, r.Action)
 }
 
+// ParseRequest will create the 'MegdProcessor' based on the given 'category' and 'action'.
+// * STATE:         {CREATE, DESTROY, BOOTSTRAPPED, STATEDOWN}
+// * CONTROL:       {START, STOP, SUSPEND, RESTART, HARD_STOP, HARD_RESTART}
+// * OPERATIONS:    {UPGRADE, NETWORK_UPDATE, RESIZE}
+// * BACKUP:        {IMAGECREATE, IMAGEDESTROY}
+// * SNAPSHOT:      {SNAPCREATE, SNAPRESTORE, SNAPDELETE, SNAPSAVE}
+// * DISKS:         {ATTACHDISK, DETACHDISK}
+// * DONE:          {RUNNING, FAILURE}
 func (p *ReqParser) ParseRequest(category string, action string) (MegdProcessor, error) {
 	switch category {
 	case STATE:
@@ -107,6 +115,7 @@ func (p *ReqParser) ParseRequest(category string, action string) (MegdProcessor,
 	}
 }
 
+// * STATE:         {CREATE, DESTROY, BOOTSTRAPPED, STATEDOWN}
 func (p *ReqParser) parseState(action string) (MegdProcessor, error) {
 	switch action {
 	case CREATE:
@@ -130,6 +139,7 @@ func (p *ReqParser) parseState(action string) (MegdProcessor, error) {
 	}
 }
 
+// * CONTROL:       {START, STOP, SUSPEND, RESTART, HARD_STOP, HARD_RESTART}
 func (p *ReqParser) parseControl(action string) (MegdProcessor, error) {
 	switch action {
 	case START:
@@ -165,21 +175,21 @@ func (p *ReqParser) parseControl(action string) (MegdProcessor, error) {
 	}
 }
 
+// * OPERATIONS:    {UPGRADE, NETWORK_UPDATE, RESIZE}
 func (p *ReqParser) parseOperations(action string) (MegdProcessor, error) {
 	switch action {
 	case UPGRADE:
-		return UpgradeProcess{
-			Name: p.name,
-		}, nil
+		return UpgradeProcess{Name: p.name}, nil
 	case NETWORK_UPDATE:
-		return UpdateNetworkProcess{
-			Name: p.name,
-		}, nil
+		return UpdateNetworkProcess{Name: p.name}, nil
+	case RESIZE:
+		return ResizeProcess{Name: p.name}, nil
 	default:
 		return nil, newParseError([]string{OPERATIONS, action}, []string{UPGRADE})
 	}
 }
 
+// * DONE:          {RUNNING, FAILURE}
 func (p *ReqParser) parseDone(action string) (MegdProcessor, error) {
 	switch action {
 	case RUNNING:
@@ -195,6 +205,7 @@ func (p *ReqParser) parseDone(action string) (MegdProcessor, error) {
 	}
 }
 
+// * BACKUP:        {IMAGECREATE, IMAGEDESTROY}
 func (p *ReqParser) parseBackups(action string) (MegdProcessor, error) {
 	switch action {
 	case IMAGECREATE:
@@ -210,6 +221,7 @@ func (p *ReqParser) parseBackups(action string) (MegdProcessor, error) {
 	}
 }
 
+// * SNAPSHOT:      {SNAPCREATE, SNAPRESTORE, SNAPDELETE, SNAPSAVE}
 func (p *ReqParser) parseSnapshot(action string) (MegdProcessor, error) {
 	switch action {
 	case SNAPCREATE:
@@ -233,6 +245,7 @@ func (p *ReqParser) parseSnapshot(action string) (MegdProcessor, error) {
 	}
 }
 
+// * DISKS:         {ATTACHDISK, DETACHDISK}
 func (p *ReqParser) parseDisks(action string) (MegdProcessor, error) {
 	switch action {
 	case ATTACHDISK:
@@ -264,21 +277,28 @@ func (e *ParseError) Error() string {
 	return fmt.Sprintf("found %s, expected %s", e.Found, strings.Join(e.Expected, ", "))
 }
 
+// Requests struct defines the action request.
+// It contains the similar content of the message from NSQ, so it can be convert from the NSQ message,
+// and it can also be used to parse the Vertice API response.
 type Requests struct {
 	Id        string    `json:"id" cql:"id"`
 	Name      string    `json:"name" cql:"name"`
 	AccountId string    `json:"account_id" cql:"account_id"`
-	CatId     string    `json:"cat_id" cql:"cat_id"`
+	CatId     string    `json:"cat_id" cql:"cat_id"` // CartonsId
 	Action    string    `json:"action" cql:"action"`
 	Category  string    `json:"category" cql:"category"`
 	CreatedAt time.Time `json:"created_at" cql:"created_at"`
 }
 
+// ApiRequests defines the structure of Vertice API response.
+// it contains a 'json_claz' to represent the class of the content
+// and the results list.
 type ApiRequests struct {
 	JsonClaz string     `json:"json_claz" cql:"json_claz"`
 	Results  []Requests `json:"results" cql:"results"`
 }
 
+// String converts the Requests object to YAML string.
 func (r *Requests) String() string {
 	if d, err := yaml.Marshal(r); err != nil {
 		return err.Error()

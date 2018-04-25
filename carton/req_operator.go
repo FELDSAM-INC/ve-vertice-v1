@@ -20,6 +20,7 @@ import (
 	"github.com/virtengine/libgo/cmd"
 )
 
+// ReqOperator is a operator which will be used to execute the given request.
 type ReqOperator struct {
 	Id        string
 	CartonsId string
@@ -34,6 +35,8 @@ func NewReqOperator(r *Requests) *ReqOperator {
 	return &ReqOperator{CartonsId: r.CatId, Category: r.Category, Action: r.Action, AccountId: r.AccountId}
 }
 
+// Accept will run the given request
+// it will call the given processor on the Cartons retrieved from Vertice API.
 func (p *ReqOperator) Accept(r *MegdProcessor) error {
 	c, err := p.Get()
 	if err != nil {
@@ -44,6 +47,9 @@ func (p *ReqOperator) Accept(r *MegdProcessor) error {
 	return md.Process(c)
 }
 
+// Get will create Cartons based on the given category
+// For categories `BACKUP`, `DISKS` and `SNAPSHOT`, the result list will contains a single Carton;
+// For other categories, the number of Cartons will depend on the result from Vertice API call.
 func (p *ReqOperator) Get() (Cartons, error) {
 	switch p.Category {
 	case BACKUPS:

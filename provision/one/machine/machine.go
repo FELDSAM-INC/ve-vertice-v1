@@ -220,7 +220,7 @@ func (m *Machine) VmHostIpPort(args *CreateArgs) error {
 			status = status + "_" + res.LcmStateString()
 		}
 		_ = asm.Trigger_event(utils.Status(status))
-		return (res.HistoryRecords.History != nil && res.LcmState == 3), nil
+		return (res.HistoryRecords.History != nil && res.LcmState == int(virtualmachine.RUNNING)), nil
 	})
 
 	if err != nil {
@@ -1004,7 +1004,7 @@ func (m *Machine) MarketplaceInstanceState(p OneProvisioner) error {
 			status = status + "_" + res.LcmStateString()
 		}
 		_ = mark.Trigger_event(utils.Status(status))
-		return (res.HistoryRecords.History != nil && res.LcmState == 3), nil
+		return (res.HistoryRecords.History != nil && res.LcmState == int(virtualmachine.RUNNING)), nil
 	})
 	return err
 }
@@ -1194,4 +1194,18 @@ func (m *Machine) SetStatusErr(status utils.Status, causeof error) error {
 		}
 	}
 	return nil
+}
+
+func (m *Machine) Resize(box *provision.Box, p OneProvisioner) error {
+	id, _ := strconv.Atoi(m.VMId)
+	opts := compute.VirtualMachine{
+		Name:   m.Name,
+		Region: m.Region,
+		VMId:   id,
+	}
+
+	cpu := strconv.FormatUint(box.GetCpushare(), 10)
+	memory := strconv.FormatUint(box.GetMemory(), 10)
+
+	return p.Cluster().Resize(opts, cpu, memory)
 }

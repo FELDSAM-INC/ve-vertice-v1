@@ -951,3 +951,32 @@ func (p *oneProvisioner) networkDetach(box *provision.Box, w io.Writer) error {
 	fmt.Fprintf(w, lb.W(lb.UPDATING, lb.INFO, fmt.Sprintf("--- network detach for box %s OK", box.GetFullName())))
 	return nil
 }
+
+func (p *oneProvisioner) Resize(box *provision.Box, w io.Writer) error {
+	fmt.Fprintf(w, lb.W(lb.UPDATING, lb.INFO, fmt.Sprintf("--- resize for box %s", box.GetFullName())))
+	actions := []*action.Action{
+		&machCreating,
+		&updateStatusInScylla,
+		&resizeVM,
+		&mileStoneUpdate,
+		&updateStatusInScylla,
+	}
+	pipeline := action.NewPipeline(actions...)
+
+	args := runMachineActionsArgs{
+		box:           box,
+		writer:        w,
+		machineStatus: constants.StatusInitializing,
+		machineState:  constants.StateInitialized,
+		provisioner:   p,
+	}
+
+	err := pipeline.Execute(args)
+	if err != nil {
+		log.Errorf("error on execute status pipeline for box %s - %s", box.GetFullName(), err)
+		return err
+	}
+
+	fmt.Fprintf(w, lb.W(lb.UPDATING, lb.INFO, fmt.Sprintf("--- resize for box %s OK", box.GetFullName())))
+	return nil
+}

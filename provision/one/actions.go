@@ -1253,3 +1253,22 @@ var removeNetworkIps = action.Action{
 	Backward: func(ctx action.BWContext) {
 	},
 }
+
+var resizeVM = action.Action{
+	Name: "resize-vm",
+	Forward: func(ctx action.FWContext) (action.Result, error) {
+		mach := ctx.Previous.(machine.Machine)
+		args := ctx.Params[0].(runMachineActionsArgs)
+		writer := args.writer
+		fmt.Fprintf(writer, lb.W(lb.UPDATING, lb.INFO, fmt.Sprintf(" resize machine (%s)", args.box.GetFullName())))
+		if err := mach.Resize(args.box, args.provisioner); err != nil {
+			return nil, err
+		}
+		mach.Status = constants.StatusResized
+		fmt.Fprintf(writer, lb.W(lb.UPDATING, lb.INFO, fmt.Sprintf(" resize machine (%s)OK", args.box.GetFullName())))
+
+		return mach, nil
+	},
+	Backward: func(ctx action.BWContext) {
+	},
+}

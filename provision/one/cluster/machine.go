@@ -956,3 +956,35 @@ func (c *Cluster) AvailIps(names, ips []string, vnets *onenet.VNetPool, region s
 	}
 	return availIp, nil
 }
+
+func (c *Cluster) Resize(vm compute.VirtualMachine, cpu, memory string) error {
+	var failures []error
+
+	node, err := c.getNodeRegion(vm.Region)
+	if err != nil {
+		return err
+	}
+	defer node.Client.Client.Close()
+
+	vm.T = node.Client
+	//	TODO: get enforce argument from request
+	if _, err := vm.Resize(cpu, memory, true); err != nil {
+		failures = append(failures, err)
+		log.Debugf("  failed to resize vm (%s)", err)
+		return err
+	}
+
+	err = safe.WaitCondition(1*time.Minute, 5*time.Second, func() (bool, error) {
+		opts := virtualmachine.Vnc{
+			VmId: strconv.Itoa(vm.VMId),
+			T:    node.Client,
+		}
+		res, err := opts.GetVm()
+		if err != nil {
+			return false, err
+		}
+		return (res.State == int(virtualmachine.ACTIVE)), nil
+	})
+
+	return err
+}

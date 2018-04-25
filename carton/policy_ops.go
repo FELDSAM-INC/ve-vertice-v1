@@ -31,6 +31,7 @@ import (
 const (
 	NETWORK_ATTACH = "NetworkAttachPolicy"
 	NETWORK_DETACH = "NetworkDetachPolicy"
+	VM_RESIZE      = "VmResize"
 )
 
 type Operations struct {
@@ -89,6 +90,35 @@ func (o *Operations) network(box *provision.Box, w io.Writer) error {
 	if box.IsPolicyOk() {
 		if deployer, ok := ProvisionerMap[box.Provider].(provision.Network); ok {
 			return deployer.NetworkUpdate(box, w)
+		}
+	}
+	return nil
+}
+
+func Resize(box *provision.Box) error {
+	var outBuffer bytes.Buffer
+	start := time.Now()
+	logWriter := lw.LogWriter{Box: box}
+	logWriter.Async()
+	defer logWriter.Close()
+	writer := io.MultiWriter(&outBuffer, &logWriter)
+
+	err := newOperations(RESIZE).resize(box, writer)
+	elapsed := time.Since(start)
+	if err != nil {
+		return err
+	}
+	log.Debugf("%s in (%s)\n%s",
+		cmd.Colorfy(box.GetFullName(), "cyan", "", "bold"),
+		cmd.Colorfy(elapsed.String(), "green", "", "bold"),
+		cmd.Colorfy(outBuffer.String(), "yellow", "", ""))
+	return nil
+}
+
+func (o *Operations) resize(box *provision.Box, w io.Writer) error {
+	if box.IsPolicyOk() {
+		if resizer, ok := ProvisionerMap[box.Provider].(provision.Resize); ok {
+			return resizer.Resize(box, w)
 		}
 	}
 	return nil

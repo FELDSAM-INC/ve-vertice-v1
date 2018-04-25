@@ -5,6 +5,7 @@ import (
 	"github.com/virtengine/vertice/carton"
 )
 
+// Handler of deployd for process request received from NSQ
 type Handler struct {
 	d            *Config
 	EventChannel chan bool
@@ -12,9 +13,9 @@ type Handler struct {
 
 func NewHandler(c *Config) *Handler {
 	return &Handler{d: c}
-
 }
 
+// serveNSQ will process the request from NSQ
 func (h *Handler) serveNSQ(r *carton.Requests) error {
 	p, err := carton.ParseRequest(r)
 	if err != nil {

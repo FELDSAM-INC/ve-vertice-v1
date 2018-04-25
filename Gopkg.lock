@@ -338,7 +338,7 @@
   revision = "1f20528f57d946d4366bb692b3a26653941efed9"
 
 [[projects]]
-  branch = "master"
+  branch = "feature/resize"
   name = "github.com/virtengine/libgo"
   packages = [
     "action",
@@ -359,10 +359,10 @@
     "utils/obc",
     "writer"
   ]
-  revision = "c130b31283bb5269475939669d3ef496de441f4b"
+  revision = "6603134bc8539cda5ece7973016370a9f173743a"
 
 [[projects]]
-  branch = "master"
+  branch = "feature/resize"
   name = "github.com/virtengine/opennebula-go"
   packages = [
     "api",
@@ -377,7 +377,7 @@
     "virtualmachine",
     "vnet"
   ]
-  revision = "585488976ebf9acd071ec1bdb04758cbc32eac22"
+  revision = "0e6d7caa1f7f0aae91ce148ac50dd8ce84c29ae3"
 
 [[projects]]
   branch = "master"
