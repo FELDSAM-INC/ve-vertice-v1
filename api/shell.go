@@ -66,7 +66,7 @@ func remoteShellHandler(ws *websocket.Conn) {
 	width := 140
 	height := 38
 	term := "xterm"
-	log.Debugf("%s %s %s %s", boxId, width, height, term)
+	log.Debugf("%s %d %d %s", boxId, width, height, term)
 
 	for _, box := range *car.Boxes {
 		opts := provision.ShellOptions{
